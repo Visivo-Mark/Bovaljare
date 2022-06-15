@@ -64,53 +64,39 @@
                 </div>
             }
 
-        <div class="buttonrow">
-            @if (CurrentView != 0)
-            {
-            <div class="backIcon">
-                <span @onclick="() =>BackClicked()" class="fa-stack fa-2x iconStack">
-                    <i class="fas fa-circle fa-stack-2x " style="        color: #555555"></i>
-                    <i class="fas fa-arrow-left fa-stack-1x " style="color:white;"></i>
-                </span>
+            <div class="buttonrow">
+                @if (CurrentView != 0)
+                {
+                <div class="backIcon">
+                    <span @onclick="() => BackClicked()" class="fa-stack fa-2x iconStack">
+                        <i class="fas fa-circle fa-stack-2x " style="        color: #555555"></i>
+                        <i class="fas fa-arrow-left fa-stack-1x " style="color:white;"></i>
+                    </span>
+                </div>
+                }
+
+                <div id="highlight_all_checker">
+                    <SfChipList Selection="Selection.Single">
+                        <ChipListEvents OnClick="OnChangeHighlight"></ChipListEvents>
+                        <ChipCollection>
+                            <ChipListChip Text="Visa status"></ChipListChip>
+                        </ChipCollection>
+                    </SfChipList>
+                </div>
+
+                <div id="view_menu">
+                    <SfDropDownButton Content="Byt Område">
+                        <DropDownButtonEvents OnItemRender="RenderMenuItem" ItemSelected="ChangeView" />
+                        <DropDownButtonItems>
+                            @for (int i = 0; i < Views.Count; i++)
+                            {
+                            <DropDownButtonItem Id="@i.ToString()" Text="@Views[i].Name"></DropDownButtonItem>
+                            }
+                        </DropDownButtonItems>
+                    </SfDropDownButton>
+                </div>
+
             </div>
-            }
-
-            <div id="highlight_all_checker">
-                <SfChipList Selection="Selection.Single">
-                    <ChipListEvents OnClick="OnChangeHighlight"></ChipListEvents>
-                    <ChipCollection>
-                        <ChipListChip Text="Visa status"></ChipListChip>
-                    </ChipCollection>
-                </SfChipList>
-            </div>
-            <button onclick="window.location.href='/Solstudie'" type="button" class="sunstudybtn">Solstudie</button>
-            <div id="view_menu">
-                <SfDropDownButton Content="Byt Område">
-                    <DropDownButtonEvents OnItemRender="RenderMenuItem" ItemSelected="ChangeView" />
-                    <DropDownButtonItems>
-                        @for (int i = 0; i < Views.Count; i++)
-                        {
-                        <DropDownButtonItem Id="@i.ToString()" Text="@Views[i].Name"></DropDownButtonItem>
-                        }
-                    </DropDownButtonItems>
-                </SfDropDownButton>
-            </div>
-
-            <div id="sun_study_menu" style="display:none">
-                <SfDropDownButton IconCss="e-icons e-sun-study" Content="Solstudie">
-                    <DropDownButtonEvents OnItemRender="RenderMenuItem" ItemSelected="ChangeSunStudy" />
-                    <DropDownButtonItems>
-                        <DropDownButtonItem Id="morning" Text="Morgon"></DropDownButtonItem>
-                        <DropDownButtonItem Id="midday" Text="Mitt på dagen"></DropDownButtonItem>
-                        <DropDownButtonItem Id="evening" Text="Kväll"></DropDownButtonItem>
-                    </DropDownButtonItems>
-                </SfDropDownButton>
-            </div>
-
-
-
-
-        </div>
         </div>
     </ContentTemplate>
 </SpinLoader>

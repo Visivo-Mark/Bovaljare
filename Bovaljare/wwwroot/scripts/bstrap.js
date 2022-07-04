@@ -1,7 +1,7 @@
 ﻿(function () {
-    window.bstrap = {
-        carousel_changeImage: function (ind) {
-            $('.carousel').carousel(ind);
-        },
-    };
+  window.bstrap = {
+    carousel_changeImage: function (ind) {
+      $('.carousel').carousel(ind);
+    },
+  };
 })();

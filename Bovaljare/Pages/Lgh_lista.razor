@@ -33,11 +33,11 @@
               {
                 @foreach (HouseMap map in view.Value)
                 {
-                    var housestatus = House.Get(map.ID).Status;
+                  var housestatus = House.Get(map.ID).Status;
 
-                    <area id="@House.Get(map.ID).Status" status="" href="#"
-                          @onmouseover="e => OnMouseOverIM(e, map.HouseNumber)" @onmouseout="() => OnMouseOutIM(map.HouseNumber)" @onclick="() => HousingClickedIM(map.ID, Views[_i].ID, map.View, housestatus)"
-                          coords="@map.IMCoords" shape="poly">
+                  <area id="@House.Get(map.ID).Status" status="" href="#"
+                        @onmouseover="e => OnMouseOverIM(e, map.HouseNumber)" @onmouseout="() => OnMouseOutIM(map.HouseNumber)" @onclick="() => HousingClickedIM(map.ID, Views[_i].ID, map.View, housestatus)"
+                        coords="@map.IMCoords" shape="poly">
                 }
               }
             }

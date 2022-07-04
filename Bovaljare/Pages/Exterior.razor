@@ -113,7 +113,7 @@
 
   List<ViewData> Views = new List<ViewData> {
     new ViewData() {
-      ID = "view-1",
+      ID = "overview",
       Name = "Översikt",
       ImageMapName = "imagemap-1",
       SunStudies = new Dictionary<string, string>() {
@@ -177,9 +177,9 @@
   private bool ViewsInited { get; set; } = false;
   private bool highlightAllIsChecked = false; // displays all imagemap colors if ture. 
   private bool firstRenderDone = false;
-  private bool TooltipIsdisabled = false;
-  private int Mouseout { get; set; } = 1;  // is used togheter with MouseIn to keep track on when to display tooltips
-  private int MouseIn { get; set; } = 1; // is used togheter with Mouseout to keep track on when to display tooltips
+  private bool TooltipIsDisabled = false;
+  private int MouseOut { get; set; } = 1;  // is used togheter with MouseIn to keep track on when to display tooltips
+  private int MouseIn { get; set; } = 1; // is used togheter with MouseOut to keep track on when to display tooltips
   private string MouseOverHouse { get; set; } = ""; // displays the housenumber depending on what house is currently beeing hoovred. 
 
 
@@ -242,10 +242,10 @@
     base.StateHasChanged();
   }
 
-  //hides the tooltip and increments mouseout. 
+  //hides the tooltip and increments MouseOut. 
   private async void OnMouseOutIM(string houseNumber)
   {
-    Mouseout = Mouseout + 1;
+    MouseOut = MouseOut + 1;
 
     MouseOverHouse = "";
     await JSRuntime.InvokeVoidAsync("util.hideTooltip");
@@ -259,16 +259,16 @@
 
     MouseOverHouse = houseNumber;
     await Task.Delay(200);
-    if (MouseIn > Mouseout)
+    if (MouseIn > MouseOut)
     {
-      if (TooltipIsdisabled == true) {
+      if (TooltipIsDisabled == true) {
         return;
       }
 
       double x = e.ClientX;
       double y = e.ClientY;
 
-      if (viewName == "view-1")
+      if (viewName == "overview")
       {
         string msg = "";
 
@@ -348,12 +348,13 @@
     base.StateHasChanged();
   }
 
-  //takes the user to the Interior page with the housenumber that is selected, but if a certain view is in the currentview ("view-1" in this one) it takes you to a diffrent view instead.
-  private async void HousingClicked(int houseId, string viewName, int viewId, string housestatus)
+  // Takes the user to the Interior page with the housenumber that is selected,
+  // unless the current view is an overview, then the user is taken to a diffrent view instead.
+  private async void HousingClicked(int houseId, string viewName, int viewId, string houseStatus)
   {
-    if (viewName == "view-1")
+    if (viewName == "overview")
     {
-      if (housestatus == "available" || housestatus =="booked")
+      if (houseStatus == "available" || houseStatus =="booked")
       {
         this.CurrentView = viewId;
 
@@ -369,7 +370,7 @@
       }
     }
 
-    else if (housestatus == "available" || housestatus == "booked")
+    else if (houseStatus == "available" || houseStatus == "booked")
     {
       var mobile = await JSRuntime.InvokeAsync<bool>("util.isDevice");
       if (mobile && MobileSelection != houseId)
@@ -384,11 +385,6 @@
         await JSRuntime.InvokeVoidAsync("util.hideTooltip");
         navManager.NavigateTo("/interior/" + houseId);
       }
-    }
-
-    else
-    {
-      return;
     }
   }
 

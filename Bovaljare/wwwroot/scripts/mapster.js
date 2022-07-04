@@ -5,7 +5,7 @@
         available: '5bcb24',
         booked: 'dfd431',
         sold: 'd32626',
-        comming: 'C0C0C0',
+        coming: 'C0C0C0',
         showcase: '1520A6',
         interior: '415965'
       };

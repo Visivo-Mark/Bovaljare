@@ -12,7 +12,6 @@
       $(function () {
         $("#tabletest").tablesorter();
       });
-
     },
 
     focuslistitem: function (housenumber) {
@@ -21,7 +20,6 @@
       if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || ScreenPixelsWidth < 1074) {
         return
       }
-
       else {
         let idlist = 'list' + `${housenumber}`;
         $('#' + `${idlist}`).addClass('focus');
@@ -29,16 +27,12 @@
           behavior: 'smooth', block: 'nearest', inline: 'start'
         });
       }
-
     },
 
     removefocuslistitem: function (housenumber) {
-
       let idlist = 'list' + `${housenumber}`;
       $('#' + `${idlist}`).removeClass('focus');
-
     },
-
 
     loadImages: async function (data) {
       var self = this,
@@ -51,7 +45,7 @@
         var img = new Image();
         img.onload = onLoadImg;
         img.id = 'house-main-' + i + '-img';
-        img.src = view.source;
+        img.src = view.sourceImgName;
         $(img).attr('view', i);
         self.imageMaps.push({
           img: img,
@@ -70,7 +64,6 @@
         });
       });
 
-
       return true;
     },
 
@@ -78,10 +71,10 @@
       var data;
 
       //for (data of this.images) {
-      //    // Remove any style that may have been added previously
-      //    $(data.img).removeAttr('style');
-      //    // Add img element
-      //    $('#'+ data.parentID).append(data.img);
+      //  // Remove any style that may have been added previously
+      //  $(data.img).removeAttr('style');
+      //  // Add img element
+      //  $('#'+ data.parentID).append(data.img);
       //}
 
       for (data of this.imageMaps) {
@@ -95,8 +88,6 @@
         $('#' + data.img.id).attr('usemap', data.usemap);
         this._loadIM(data.img, data.style.width);
       }
-
-
     },
 
     _loadIM: function (img, imgWidth) {
@@ -105,7 +96,6 @@
         parentID = 'house-main-' + view,
         imgID = parentID + '-img',
         mapName = 'house-map-' + view;
-
 
       mapster_responsive.setValues(parseInt(view), parentID, imgWidth);
       mapster.addMapHighlights(parentID, imgID, mapName);
@@ -121,7 +111,6 @@
         .then(_resp => {
           mapster_responsive.changeImage(ind);
         });
-
     },
 
     dispose: function () {

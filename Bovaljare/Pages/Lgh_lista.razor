@@ -25,11 +25,11 @@
       @for (int i = 0; i < Views.Count; i++)
       {
         var _i = i;
-        <div id="@Views[i].ID" style="@(!ViewsInited || CurrentView == _i ? "" : "display: none;") @(ViewsInited ? "" : "visibility: hidden;")">
+        <div id="@Views[i].Name" style="@(!ViewsInited || CurrentView == _i ? "" : "display: none;") @(ViewsInited ? "" : "visibility: hidden;")">
           <map id="@Views[i].ImageMapName" name="@Views[i].ImageMapName">
             @foreach (KeyValuePair<string, List<HouseMap>> view in MapData)
             {
-              if (view.Key == HouseMap.ImageNameToVariant(Views[i].Source))
+              if (view.Key == HouseMap.ImageNameToVariant(Views[i].SourceImgName))
               {
                 @foreach (HouseMap map in view.Value)
                 {
@@ -38,7 +38,7 @@
                   <area id="@House.Get(map.ID).Status" status="" href="#"
                         @onmouseover="e => OnMouseOverIM(e, map.HouseNumber)"
                         @onmouseout="() => OnMouseOutIM(map.HouseNumber)"
-                        @onclick="() => HousingClickedIM(map.ID, Views[_i].ID, map.View, housestatus)"
+                        @onclick="() => HousingClickedIM(map.ID, Views[_i].Name, map.View, housestatus)"
                         coords="@map.IMCoords" shape="poly">
                 }
               }
@@ -52,7 +52,7 @@
         {
           var _i = i;
           <span id="gallery-item-@i" style="width:19%;">
-            <img id="@("#abc"+i)" src="@Views[i].Source" view="@i" class="gallery-img"
+            <img id="@("#abc"+i)" src="@Views[i].SourceImgName" view="@i" class="gallery-img"
                  @onclick="e=>onImgMouseClick(_i)">
           </span>
         }
@@ -91,13 +91,13 @@
                 @if (HouseData[i].Status == "available")
                 {<p style="color:forestgreen; margin-bottom:2px; margin-top:5px; "> Ledig </p>}
                 @if (HouseData[i].Status == "sold")
-                {<p style="color:red;  margin-bottom:5px; margin-top:5px;">Såld</p>}
+                {<p style="color:red;  margin-bottom:5px; margin-top:5px;"> Såld </p>}
                 @if (HouseData[i].Status == "booked")
-                {<p style="color:darkorange;  margin-bottom:2px; margin-top:5px;">Reserverad</p>}
+                {<p style="color:darkorange;  margin-bottom:2px; margin-top:5px;"> Reserverad </p>}
                 @if (HouseData[i].Status == "coming")
-                {<p style="color:silver;  margin-bottom:2px; margin-top:5px;">Kommande</p>}
+                {<p style="color:silver;  margin-bottom:2px; margin-top:5px;"> Kommande etapp </p>}
                 @if (HouseData[i].Status == "showcase")
-                {<p style="color:blue;  margin-bottom:2px; margin-top:5px;">Visningshus</p>}
+                {<p style="color:blue;  margin-bottom:2px; margin-top:5px;"> Visningshus </p>}
               </td>
             </tr>
           }
@@ -110,15 +110,6 @@
 
 
 @code{
-  public class ViewData
-  {
-    public string ID { get; set; }
-    public string Source { get; set; }
-    public string ImageMapName { get; set; }
-    public bool Initialized { get; set; } = false;
-  }
-
-
   private static Lgh_lista self;
 
   private SfGrid<House> HouseList;
@@ -146,28 +137,28 @@
 
   List<ViewData> Views = new List<ViewData> {
     new ViewData() {
-      ID = _id + _ind,
-      Source = "IMG/OversiktStora_medium2.jpg",
+      Name = _id + _ind,
+      SourceImgName = "IMG/OversiktStora_medium2.jpg",
       ImageMapName = _mapName +_ind++,
     },
     new ViewData {
-      ID = _id + _ind,
-      Source = "IMG/Oversikt_V2_medium.jpg",
+      Name = _id + _ind,
+      SourceImgName = "IMG/Oversikt_V2_medium.jpg",
       ImageMapName = _mapName + _ind++,
     },
     new ViewData {
-      ID = _id + _ind,
-      Source = "IMG/SolHav_Overview_V3_BeautyElement.jpg",
+      Name = _id + _ind,
+      SourceImgName = "IMG/Oversikt1-5_medium.jpg",
       ImageMapName = _mapName + _ind++,
     },
     new ViewData {
-      ID = _id + _ind,
-      Source = "IMG/Oversikt8_medium.jpg",
+      Name = _id + _ind,
+      SourceImgName = "IMG/Oversikt8_medium.jpg",
       ImageMapName = _mapName + _ind++,
     },
     new ViewData {
-      ID = _id + _ind,
-      Source = "IMG/Oversikt11_medium.jpg",
+      Name = _id + _ind,
+      SourceImgName = "IMG/Oversikt11_medium.jpg",
       ImageMapName = _mapName + _ind++,
     },
   };
@@ -194,9 +185,9 @@
 
   protected override void OnInitialized()
   {
-    _ind=0;
     base.OnInitialized();
     self = this;
+    _ind = 0; // Reset index counter.
     this.HouseData = House.GetHouseData();
     this.MapData = HouseMap.GetHouseMapData();
     this.HouseToStatus = new Dictionary<string, string>();
@@ -358,11 +349,11 @@
     {
       await JSRuntime.InvokeVoidAsync("mapster.deselect");
 
-      string viewName = HouseMap.ImageNameToVariant(this.Views[this.CurrentView].Source);
+      string viewName = HouseMap.ImageNameToVariant(this.Views[this.CurrentView].SourceImgName);
       string key = viewName + "_" + houseNumber;
       if (HouseToStatus.ContainsKey(key))
       {
-        string id = this.Views[this.CurrentView].ID;
+        string id = this.Views[this.CurrentView].Name;
         string statusKey = HouseToStatus[key];
         await JSRuntime.InvokeVoidAsync("mapster.select", id, id + "-img", statusKey);
       }

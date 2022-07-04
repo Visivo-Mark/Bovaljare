@@ -17,7 +17,6 @@ namespace Bovaljare.Data
 
     public class Image
     {
-
       public string Thumbnail { get; set; }
       public string Source { get; set; }
       public ImageType Type { get; set; }

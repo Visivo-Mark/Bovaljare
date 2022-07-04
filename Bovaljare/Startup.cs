@@ -1,17 +1,11 @@
 using BlazorStrap;
 using Bovaljare.Data;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Syncfusion.Blazor;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Bovaljare
 {
@@ -36,13 +30,9 @@ namespace Bovaljare
       services.AddSingleton<HouseType>();
       services.AddSingleton<House>();
       // signalR
-      services.AddSignalR(options =>
-      {
-
+      services.AddSignalR(options => {
         options.EnableDetailedErrors = true;
-
       });
-
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

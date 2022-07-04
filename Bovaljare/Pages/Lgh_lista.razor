@@ -382,26 +382,12 @@
       }
     }
 
-    switch (house.Status)
-    {
-      case "sold":
-        msg = "Såld";
-        break;
-      case "coming":
-        msg = "Kommande etapp";
-        break;
-      case "showcase":
-        msg = "Visningshus";
-        break;
-      case "booked":
-        msg = "Reserverad";
-        break;
-      default:
-        msg = "Hus nr.\t" + houseNumber +
-            "\nBoarea:\t" + house.Sqm +
-            "\nPris: \t" + house.Price;
-        break;
-    }
+    if (house.Status != "available")
+      msg = house.Status;
+    else
+      msg = "Hus nr.\t" + houseNumber +
+          "\nBoarea:\t" + house.Sqm +
+          "\nPris: \t" + house.Price;
 
     await JSRuntime.InvokeVoidAsync(
       "util.showTooltip", x, y, msg

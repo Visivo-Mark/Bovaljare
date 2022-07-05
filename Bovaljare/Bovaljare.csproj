@@ -7,26 +7,18 @@
 
   <ItemGroup>
     <Compile Remove="compatibility\**" />
-    <Compile Remove="wwwroot\css\**" />
-    <Compile Remove="wwwroot\data\**" />
     <Compile Remove="wwwroot\IMG\apts\**" />
     <Compile Remove="wwwroot\IMG\icons\pan\**" />
     <Compile Remove="wwwroot\material-202006041330139071-99945271\**" />
     <Content Remove="compatibility\**" />
-    <Content Remove="wwwroot\css\**" />
-    <Content Remove="wwwroot\data\**" />
     <Content Remove="wwwroot\IMG\apts\**" />
     <Content Remove="wwwroot\IMG\icons\pan\**" />
     <Content Remove="wwwroot\material-202006041330139071-99945271\**" />
     <EmbeddedResource Remove="compatibility\**" />
-    <EmbeddedResource Remove="wwwroot\css\**" />
-    <EmbeddedResource Remove="wwwroot\data\**" />
     <EmbeddedResource Remove="wwwroot\IMG\apts\**" />
     <EmbeddedResource Remove="wwwroot\IMG\icons\pan\**" />
     <EmbeddedResource Remove="wwwroot\material-202006041330139071-99945271\**" />
     <None Remove="compatibility\**" />
-    <None Remove="wwwroot\css\**" />
-    <None Remove="wwwroot\data\**" />
     <None Remove="wwwroot\IMG\apts\**" />
     <None Remove="wwwroot\IMG\icons\pan\**" />
     <None Remove="wwwroot\material-202006041330139071-99945271\**" />
@@ -35,9 +27,7 @@
   <ItemGroup>
     <Content Remove="Pages\360_bilder.razor" />
     <Content Remove="Pages\VR-video.razor" />
-    <Content Remove="wwwroot\favicon.ico" />
     <Content Remove="wwwroot\Goback.js" />
-    <Content Remove="wwwroot\housing_data.json" />
     <Content Remove="wwwroot\IMG\Adjust-KitchenG3KT.jpg" />
     <Content Remove="wwwroot\IMG\Dag.jpg" />
     <Content Remove="wwwroot\IMG\ext. 2.jpg" />
@@ -102,6 +92,16 @@
   <ItemGroup>
     <None Include="wwwroot\C4-theme\compatibility\material.scss" />
     <None Include="wwwroot\C4-theme\material.scss" />
+    <None Include="wwwroot\css\bootstrap\bootstrap.min.css.map" />
+    <None Include="wwwroot\css\material-202008211246302489-52294959\compatibility\material.scss" />
+    <None Include="wwwroot\css\material-202008211246302489-52294959\material.scss" />
+    <None Include="wwwroot\css\open-iconic\FONT-LICENSE" />
+    <None Include="wwwroot\css\open-iconic\font\fonts\open-iconic.svg" />
+    <None Include="wwwroot\css\open-iconic\ICON-LICENSE" />
+    <None Include="wwwroot\css\open-iconic\README.md" />
+    <None Include="wwwroot\data\apartments.js" />
+    <None Include="wwwroot\data\apartments\apt_data.js" />
+    <None Include="wwwroot\data\pan_options.js" />
   </ItemGroup>
 
 </Project>

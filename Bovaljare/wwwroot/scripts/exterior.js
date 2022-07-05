@@ -4,7 +4,7 @@
     mapIndex: {},
 
     loadImages: async function (data) {
-      var self = this,
+      var self = this, ind = 0,
         imagesLoaded = data.length,
         onLoadImg = function () { imagesLoaded = imagesLoaded - 1; };
       // Load images that use image maps every time
@@ -27,6 +27,8 @@
           usemap: '#houses-' + i,
           style: { width: '99%' },
         });
+
+        self.mapIndex[view.Name] = ind++;
         /* SUNSTUDY
         imagesLoaded = data.length * 3;
         var name, source, img;
@@ -50,10 +52,6 @@
         /SUNSTUDY */
       });
 
-      var i, ind = 0;
-      for (i in data) {
-        this.mapIndex[i] = ind++;
-      }
       /* SUNSTUDY
       var i, name, ind = 0;
       for (i in data) {

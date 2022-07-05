@@ -33,12 +33,14 @@
               {
                 @foreach (HouseMap map in view.Value)
                 {
-                  var housestatus = House.Get(map.ID).Status;
+                  var houseStatus = "available";
+                  if (map.ID > 0)
+                    houseStatus = House.Get(map.ID).Status;
 
-                  <area id="@House.Get(map.ID).Status" status="" href="#"
+                  <area id="@houseStatus" status="" href="#"
                         @onmouseover="e => OnMouseOverIM(e, map.HouseNumber)"
                         @onmouseout="() => OnMouseOutIM(map.HouseNumber)"
-                        @onclick="() => HousingClickedIM(map.ID, views[_i].Name, map.View, housestatus)"
+                        @onclick="() => HousingClickedIM(map.ID, houseStatus)"
                         coords="@map.IMCoords" shape="poly">
                 }
               }
@@ -199,12 +201,17 @@
       Dictionary<string, int> statuses = new Dictionary<string, int> {};
       foreach (HouseMap map in view.Value)
       {
-        string status = HouseData.Find(x => x.HouseNumber == map.HouseNumber).Status;
+        string status = "available";
+        if (map.ID > 0)
+          status = HouseData.Find(x => x.HouseNumber == map.HouseNumber).Status;
 
         if (!statuses.ContainsKey(status))
           statuses.Add(status, 0);
 
-        HouseToStatus.Add(view.Key +"_"+ map.HouseNumber,
+        string id = map.HouseNumber != null
+                  ? map.HouseNumber : map.View;
+
+        HouseToStatus.Add(view.Key +"_"+ id,
                           status + statuses[status]++);
       }
     }
@@ -390,21 +397,21 @@
     await JSRuntime.InvokeVoidAsync("util.hideTooltip");
   }
 
-  private async void HousingClickedIM(int houseID, string ID, int view, string housestatus)
+  private async void HousingClickedIM(int houseId, string houseStatus)
   {
-    if (housestatus == "available" || housestatus == "booked")
+    if (houseStatus == "available" || houseStatus == "booked")
     {
       var mobile = await JSRuntime.InvokeAsync<bool>("util.isDevice");
-      if (mobile && MobileSelection != houseID)
+      if (mobile && MobileSelection != houseId)
       {
-        MobileSelection = houseID;
+        MobileSelection = houseId;
       }
       else
       {
         await JSRuntime.InvokeVoidAsync("util.disableContent");
         await JSRuntime.InvokeVoidAsync("util.disableClickMenu");
         await JSRuntime.InvokeVoidAsync("util.hideTooltip");
-        navManager.NavigateTo("/interior/" + houseID);
+        navManager.NavigateTo("/interior/" + houseId);
       }
     }
   }

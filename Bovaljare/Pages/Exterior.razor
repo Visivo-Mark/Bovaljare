@@ -24,7 +24,7 @@
 
       <div></div>
 
-      @for (int i = 0; i < Views.Count; i++)
+      @for (int i = 0; i < views.Count; i++)
       {
         var _i = i;
         <div id="view-@_i" class="marginmobile" style="@(!ViewsInited || CurrentView == _i ? "" : "display: none;") @(ViewsInited ? "" : "visibility: hidden;")">
@@ -33,16 +33,16 @@
 
             @foreach (KeyValuePair<string, List<HouseMap>> view in MapData)
             {
-              if (view.Key == HouseMap.ImageNameToVariant(Views[_i].SourceImgName))
+              if (view.Key == HouseMap.ImageNameToVariant(views[_i].SourceImgName))
               {
                 @foreach (HouseMap map in view.Value)
                 {
                   var houseStatus = House.Get(map.ID).Status;
 
                   <area id="@House.Get(map.ID).Status" status="" href="#"
-                        @onmouseover="e => OnMouseOverIM(e, map.HouseNumber, Views[_i].Name, map.View)"
+                        @onmouseover="e => OnMouseOverIM(e, map.HouseNumber, views[_i].Name, map.View)"
                         @onmouseout="() => OnMouseOutIM(map.HouseNumber)"
-                        @onclick="() => HousingClicked(map.ID, Views[_i].Name, map.View, houseStatus)"
+                        @onclick="() => HousingClicked(map.ID, views[_i].Name, map.View, houseStatus)"
                         coords="@map.IMCoords" shape="poly">
                 }
               }
@@ -105,9 +105,9 @@
           <SfDropDownButton Content="Byt Område">
             <DropDownButtonEvents OnItemRender="RenderMenuItem" ItemSelected="ChangeView" />
             <DropDownButtonItems>
-              @for (int i = 0; i < Views.Count; i++)
+              @for (int i = 0; i < views.Count; i++)
               {
-                <DropDownButtonItem Id="@i.ToString()" Text="@Views[i].DisplayName"></DropDownButtonItem>
+                <DropDownButtonItem Id="@i.ToString()" Text="@views[i].DisplayName"></DropDownButtonItem>
               }
             </DropDownButtonItems>
           </SfDropDownButton>
@@ -121,7 +121,7 @@
   // Views is a list of the class viewdata that contains all the overview images; it's used in the For loops for the "overview gallery".
   // If more overviews are needed, add more to Views as a new object of ViewData to the list.
 
-  List<ViewData> Views = new List<ViewData> {
+  private Views views = new Views(
     new ViewData() {
       Name = "view-1",
       DisplayName = "Översikt",
@@ -156,8 +156,8 @@
       DisplayName = "Etapp 2 – radhus och kedjehus",
       ImageMapName = "imagemap-5",
       SourceImgName = "IMG/Oversikt11_medium.jpg",
-    },
-  };
+    }
+  );
 
   public Dictionary<string, List<HouseMap>> MapData { get; set; }
   private int CurrentView { get; set; } = 0; //this can be set to a diffrent inte depending on wich starting "overview is needed" 0 is the first class object in the views list.  
@@ -192,7 +192,7 @@
       await JSRuntime.InvokeVoidAsync("mapster.dispose");
       await JSRuntime.InvokeVoidAsync("mapster_responsive.dispose");
       await JSRuntime.InvokeVoidAsync("mapster_responsive.initialize", true);
-      ImagesLoaded = await JSRuntime.InvokeAsync<bool>("exterior.loadImages", Views);
+      ImagesLoaded = await JSRuntime.InvokeAsync<bool>("exterior.loadImages", views.GetViewData());
       firstRenderDone = true;
       base.StateHasChanged();
       await JSRuntime.InvokeVoidAsync("exterior.applyImages");
@@ -258,32 +258,18 @@
 
       double x = e.ClientX;
       double y = e.ClientY;
+      string msg;
 
       if (viewName == "view-1")
       {
-        string msg = "";
-
-        if (viewId == 1) {
-          msg = "Etapp 1, radhus och kedjehus";
-        }
-        else if (viewId == 2) {
-          msg = "Villor";
-        }
-        else if (viewId == 3) {
-          msg = "Etapp 2, Brf-radhus";
-        }
-        else if (viewId == 4) {
-          msg = "Etapp 2 – radhus och kedjehus";
-        }
+        msg = views.GetView("view-" + (viewId+1)).DisplayName;
 
         await JSRuntime.InvokeVoidAsync(
           "util.showTooltip", x, y, msg
         );
       }
-
       else
       {
-        string msg;
         House house = null;
         foreach (House h in House.GetHouseData())
         {

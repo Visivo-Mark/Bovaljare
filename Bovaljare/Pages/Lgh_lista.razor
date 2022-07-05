@@ -22,14 +22,14 @@
     <img src="IMG/pixel.gif" alt="" @onload="OnAfterLoader" style="position: absolute; top: 0px; visibility: hidden;" />
 
     <div class="line-8"  id="gallerybox">
-      @for (int i = 0; i < Views.Count; i++)
+      @for (int i = 0; i < views.Count; i++)
       {
         var _i = i;
-        <div id="@Views[i].Name" style="@(!ViewsInited || CurrentView == _i ? "" : "display: none;") @(ViewsInited ? "" : "visibility: hidden;")">
-          <map id="@Views[i].ImageMapName" name="@Views[i].ImageMapName">
+        <div id="@views[i].Name" style="@(!ViewsInited || CurrentView == _i ? "" : "display: none;") @(ViewsInited ? "" : "visibility: hidden;")">
+          <map id="@views[i].ImageMapName" name="@views[i].ImageMapName">
             @foreach (KeyValuePair<string, List<HouseMap>> view in MapData)
             {
-              if (view.Key == HouseMap.ImageNameToVariant(Views[i].SourceImgName))
+              if (view.Key == HouseMap.ImageNameToVariant(views[i].SourceImgName))
               {
                 @foreach (HouseMap map in view.Value)
                 {
@@ -38,7 +38,7 @@
                   <area id="@House.Get(map.ID).Status" status="" href="#"
                         @onmouseover="e => OnMouseOverIM(e, map.HouseNumber)"
                         @onmouseout="() => OnMouseOutIM(map.HouseNumber)"
-                        @onclick="() => HousingClickedIM(map.ID, Views[_i].Name, map.View, housestatus)"
+                        @onclick="() => HousingClickedIM(map.ID, views[_i].Name, map.View, housestatus)"
                         coords="@map.IMCoords" shape="poly">
                 }
               }
@@ -48,11 +48,11 @@
       }
 
       <div id="gallery">
-        @for (int i = 0; i < Views.Count; i++)
+        @for (int i = 0; i < views.Count; i++)
         {
           var _i = i;
           <span id="gallery-item-@i" style="width:19%;">
-            <img id="@("#abc"+i)" src="@Views[i].SourceImgName" view="@i" class="gallery-img"
+            <img id="@("#abc"+i)" src="@views[i].SourceImgName" view="@i" class="gallery-img"
                  @onclick="e=>onImgMouseClick(_i)">
           </span>
         }
@@ -135,7 +135,7 @@
   private static string _mapName = "house-map-";
   private static int _ind = 0;
 
-  List<ViewData> Views = new List<ViewData> {
+  private Views views = new Views(
     new ViewData() {
       Name = _id + _ind,
       SourceImgName = "IMG/OversiktStora_medium2.jpg",
@@ -160,8 +160,8 @@
       Name = _id + _ind,
       SourceImgName = "IMG/Oversikt11_medium.jpg",
       ImageMapName = _mapName + _ind++,
-    },
-  };
+    }
+  );
 
   private async void HouselistClick(int houseID, string houseStatus)
   {
@@ -226,7 +226,7 @@
       firstRenderDone = true;
       base.StateHasChanged();
       await JSRuntime.InvokeVoidAsync("util.hideCP");
-      ImagesLoaded = await JSRuntime.InvokeAsync<bool>("lgh_lista.loadImages", Views);
+      ImagesLoaded = await JSRuntime.InvokeAsync<bool>("lgh_lista.loadImages", views.GetViewData());
       await JSRuntime.InvokeVoidAsync("util.enableClickMenu");
       await JSRuntime.InvokeVoidAsync("util.enableClickGridResize");
       await JSRuntime.InvokeVoidAsync("lgh_lista.applyImages");
@@ -349,11 +349,11 @@
     {
       await JSRuntime.InvokeVoidAsync("mapster.deselect");
 
-      string viewName = HouseMap.ImageNameToVariant(this.Views[this.CurrentView].SourceImgName);
+      string viewName = HouseMap.ImageNameToVariant(views[CurrentView].SourceImgName);
       string key = viewName + "_" + houseNumber;
       if (HouseToStatus.ContainsKey(key))
       {
-        string id = this.Views[this.CurrentView].Name;
+        string id = views[CurrentView].Name;
         string statusKey = HouseToStatus[key];
         await JSRuntime.InvokeVoidAsync("mapster.select", id, id + "-img", statusKey);
       }

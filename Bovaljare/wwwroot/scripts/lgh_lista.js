@@ -14,24 +14,19 @@
       });
     },
 
-    focuslistitem: function (housenumber) {
-      var ScreenPixelsWidth = window["innerWidth"];
-
-      if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || ScreenPixelsWidth < 1074) {
-        return
-      }
-      else {
-        let idlist = 'list' + `${housenumber}`;
-        $('#' + `${idlist}`).addClass('focus');
-        document.querySelector('#' + `${idlist}`).scrollIntoView({
+    focusListItem: function (houseNumber) {
+      if (!util.isDevice()) {
+        let idList = 'list' + `${houseNumber}`;
+        $('#' + `${idList}`).addClass('focus');
+        document.querySelector('#' + `${idList}`).scrollIntoView({
           behavior: 'smooth', block: 'nearest', inline: 'start'
         });
       }
     },
 
-    removefocuslistitem: function (housenumber) {
-      let idlist = 'list' + `${housenumber}`;
-      $('#' + `${idlist}`).removeClass('focus');
+    removeFocusListItem: function (houseNumber) {
+      let idList = 'list' + `${houseNumber}`;
+      $('#' + `${idList}`).removeClass('focus');
     },
 
     loadImages: async function (data) {

@@ -19,7 +19,6 @@
 
     disableClickMenu: function () {
       $('#topnav').addClass('loading');
-
     },
 
     hidecolorpicker: function () {
@@ -31,14 +30,11 @@
         $('.visibleButton').removeClass("visibleButton")
         $('.hiddenButton').addClass("hiddenButtonCP")
         $('.hiddenButton').removeClass("hiddenButton")
-
-
       }
       else {
         $('#colorpick').removeClass('showcolorpicker');
         $('#colorpick').addClass('hidecolorpicker');
         $('#colorpickslink').removeClass('animate__animated animate__pulse animate__slower animate__infinite infinite');
-
       };
     },
 
@@ -48,47 +44,37 @@
       $('#colorpickslink').removeClass('animate__animated animate__pulse animate__slower animate__infinite infinite');
     },
 
-
     enableClickMenu: function () {
       setTimeout(() => { $('#topnav').removeClass('loading'); }, 2000);
-
     },
 
     disableClickGridResize: function () {
       $('#GridResize').addClass('loading');
-
     },
 
     enableClickGridResize: function () {
       setTimeout(() => { $('#GridResize').removeClass('loading'); }, 2000);
-
-
     },
 
     disableContent: function () {
       $('#theWindow').addClass('loading');
-
     },
 
     enableContent: function () {
       setTimeout(() => { $('#theWindow').removeClass('loading'); }, 2000);
-
     },
 
     enableContentinterior: function () {
       setTimeout(() => {
         $('#theWindow').removeClass('loading');
+
         if ($(window).width() <= 927) {
           var height2 = parseInt($('.planritning').height());
           $('#gallery').height(height2 + 'px');
           $('#info').height('auto')
           var height10 = parseInt($('#carousel-item-1').height())
           $('.iframe-container iframe').height(height10 + 'px');
-
-
-
         }
-
         else {
           $('#gallery').height('auto');
 
@@ -101,14 +87,9 @@
           $('#info').height(newheight + 'px')
           var height10 = parseInt($('#carousel-item-1').height())
           $('.iframe-container iframe').height(height10 + 'px');
-
-
         }
       }, 2100);
-
     },
-
-
 
     getElementFromPoint: function (target) {
       var list = document.querySelectorAll(':hover');
@@ -140,11 +121,9 @@
       for (img of $(query)) {
         if ($(img).attr('src') === targetSrc)
           return img;
-
       }
       return img;
     },
-
 
     removeObjectByName: function (object, targetName) {
       var children = object.children;

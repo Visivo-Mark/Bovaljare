@@ -33,7 +33,7 @@
               {
                 @foreach (HouseMap map in view.Value)
                 {
-                  var houseStatus = "available";
+                  var houseStatus = House.StatusType.Available;
                   if (map.ID > 0)
                     houseStatus = House.Get(map.ID).Status;
 
@@ -62,52 +62,51 @@
     </div>
 
     <div class="line-4 container" id="GridResize">
-
       <table id="tabletest" style="width:100%;">
         <thead>
-            <tr>
-              <th class="listitemheader">Husnr. <i class="fas fa-sort"></i></th>
-              <th class="listitemheader">Boyta <i class="fas fa-sort"></i></th>
-              <th class="listitemheader">Pris <i class="fas fa-sort"></i></th>
-              <th class="listitemheader">Årshyra<i class="fas fa-sort"></i></th>
-              <th class="listitemheader hideonmobile">Tomtarea <i class="fas fa-sort"></i></th>
-              <th class="listitemheader">Status <i class="fas fa-sort"></i></th>
-            </tr>
+          <tr>
+            <th class="listitemheader">Adress<i class="fas fa-sort"></i></th>
+            <th class="listitemheader">Boyta<i class="fas fa-sort"></i></th>
+            <th class="listitemheader">Pris<i class="fas fa-sort"></i></th>
+            <th class="listitemheader">Årshyra<i class="fas fa-sort"></i></th>
+            <th class="listitemheader hideonmobile">Tomtarea<i class="fas fa-sort"></i></th>
+            <th class="listitemheader">Status<i class="fas fa-sort"></i></th>
+          </tr>
         </thead>
         <tbody>
           @for (int i = 0; i < HouseData.Count; i++)
           {
-              var id = HouseData[i].ID;
-              var houseNr = HouseData[i].HouseNumber;
-              var housestatus = HouseData[i].Status;
+            var id = HouseData[i].ID;
+            var houseNr = HouseData[i].HouseNumber;
+            var houseStatus = HouseData[i].Status;
+            var houseStatusDisplayName = House.StatusDisplayName[houseStatus];
             <tr id="@("list"+houseNr)" class="listitem"
                 @onmouseleave="OnMouseOutGrid"
                 @onmouseenter="() => HighlightInImageMap(houseNr)"
-                @onclick="() => HouselistClick(id, housestatus)">
-              <td class="listitemcell">@HouseData[i].HouseNumber</td>
+                @onclick="() => HouselistClick(id, houseStatus)">
+              <td class="listitemcell">@HouseData[i].Address</td>
               <td class="listitemcell">@HouseData[i].Sqm</td>
               <td class="listitemcell">@HouseData[i].Price</td>
               <td class="listitemcell">@HouseData[i].Rent</td>
               <td class="listitemcell hideonmobile">@HouseData[i].LandArea</td>
               <td class="listitemcell">
-                @if (HouseData[i].Status == "available")
-                {<p style="color:forestgreen; margin-bottom:2px; margin-top:5px; "> Ledig </p>}
-                @if (HouseData[i].Status == "sold")
-                {<p style="color:red;  margin-bottom:5px; margin-top:5px;"> Såld </p>}
-                @if (HouseData[i].Status == "booked")
-                {<p style="color:darkorange;  margin-bottom:2px; margin-top:5px;"> Reserverad </p>}
-                @if (HouseData[i].Status == "coming")
-                {<p style="color:silver;  margin-bottom:2px; margin-top:5px;"> Kommande etapp </p>}
-                @if (HouseData[i].Status == "showcase")
-                {<p style="color:blue;  margin-bottom:2px; margin-top:5px;"> Visningshus </p>}
+                @if (HouseData[i].Status == House.StatusType.Available)
+                {<p style="color:forestgreen; margin-bottom:2px; margin-top:5px; "> @houseStatusDisplayName </p>}
+                @if (HouseData[i].Status == House.StatusType.Sold)
+                {<p style="color:red; margin-bottom:2px; margin-top:5px;"> @houseStatusDisplayName </p>}
+                @if (HouseData[i].Status == House.StatusType.Booked)
+                {<p style="color:darkorange; margin-bottom:2px; margin-top:5px;"> @houseStatusDisplayName </p>}
+                @if (HouseData[i].Status == House.StatusType.Upcoming)
+                {<p style="color:silver; margin-bottom:2px; margin-top:5px;"> @houseStatusDisplayName </p>}
+                @if (HouseData[i].Status == House.StatusType.Showcase)
+                {<p style="color:blue; margin-bottom:2px; margin-top:5px;"> @houseStatusDisplayName </p>}
               </td>
             </tr>
           }
         </tbody>
       </table>
     </div>
-      
-    </ContentTemplate>
+  </ContentTemplate>
 </SpinLoader>
 
 
@@ -140,34 +139,19 @@
   private Views views = new Views(
     new ViewData() {
       Name = _id + _ind,
-      SourceImgName = "IMG/OversiktStora_medium2.jpg",
+      SourceImgName = "IMG/exterior/solhav_PerspectiveMatch_oversikt2.jpg",
       ImageMapName = _mapName +_ind++,
     },
     new ViewData {
       Name = _id + _ind,
-      SourceImgName = "IMG/Oversikt_V2_medium.jpg",
-      ImageMapName = _mapName + _ind++,
-    },
-    new ViewData {
-      Name = _id + _ind,
-      SourceImgName = "IMG/Oversikt1-5_medium.jpg",
-      ImageMapName = _mapName + _ind++,
-    },
-    new ViewData {
-      Name = _id + _ind,
-      SourceImgName = "IMG/Oversikt8_medium.jpg",
-      ImageMapName = _mapName + _ind++,
-    },
-    new ViewData {
-      Name = _id + _ind,
-      SourceImgName = "IMG/Oversikt11_medium.jpg",
+      SourceImgName = "IMG/exterior/SolHav_Oversikt_V3_BeautyElement.jpg",
       ImageMapName = _mapName + _ind++,
     }
   );
 
-  private async void HouselistClick(int houseID, string houseStatus)
+  private async void HouselistClick(int houseID, House.StatusType houseStatus)
   {
-    if (houseStatus == "available" || houseStatus == "booked")
+    if (houseStatus == House.StatusType.Available || houseStatus == House.StatusType.Booked)
     {
       var mobile = await JSRuntime.InvokeAsync<bool>("util.isDevice");
       if (mobile && MobileSelection != houseID)
@@ -198,10 +182,10 @@
 
     foreach (KeyValuePair<string, List<HouseMap>> view in MapData)
     {
-      Dictionary<string, int> statuses = new Dictionary<string, int> {};
+      Dictionary<House.StatusType, int> statuses = new Dictionary<House.StatusType, int> {};
       foreach (HouseMap map in view.Value)
       {
-        string status = "available";
+        House.StatusType status = House.StatusType.Available;
         if (map.ID > 0)
           status = HouseData.Find(x => x.HouseNumber == map.HouseNumber).Status;
 
@@ -212,7 +196,7 @@
                   ? map.HouseNumber : map.View;
 
         HouseToStatus.Add(view.Key +"_"+ id,
-                          status + statuses[status]++);
+                          status.ToString() + statuses[status]++);
       }
     }
 
@@ -271,7 +255,7 @@
         return;
 
       ShowTooltip(e.ClientX, e.ClientY, houseNumber);
-      await JSRuntime.InvokeVoidAsync("lgh_lista.focuslistitem", houseNumber);
+      await JSRuntime.InvokeVoidAsync("lgh_lista.focusListItem", houseNumber);
 
       MouseOverHouse = "";
     }
@@ -283,7 +267,7 @@
 
     MouseOverHouse = "";
     await JSRuntime.InvokeVoidAsync("util.hideTooltip");
-    await JSRuntime.InvokeVoidAsync("lgh_lista.removefocuslistitem", houseNumber);
+    await JSRuntime.InvokeVoidAsync("lgh_lista.removeFocusListItem", houseNumber);
     //if (IsHighlighting)
     //{
     //  await this.HouseList.ClearRowSelection();
@@ -370,22 +354,17 @@
   private async void ShowTooltip(double x, double y, string houseNumber)
   {
     string msg;
-    House house = null;
-    foreach (House h in HouseData)
-    {
-      if (h.HouseNumber == houseNumber)
-      {
-        house = h;
-        break;
-      }
-    }
+    House house = HouseData.Find(h => h.HouseNumber == houseNumber);
 
-    if (house.Status != "available")
-      msg = house.Status;
+    var prettyStr = delegate(string str) {
+      return str != null ? str : "-";
+    };
+
+    if (house.Status != House.StatusType.Available)
+      msg = House.StatusDisplayName[house.Status];
     else
-      msg = "Hus nr.\t" + houseNumber +
-          "\nBoarea:\t" + house.Sqm +
-          "\nPris: \t" + house.Price;
+      msg = String.Format("Adress:\t{0}\nBoyta:\t{1}\nPris:\t{2}",
+                          house.Address, prettyStr(house.Sqm), prettyStr(house.Price));
 
     await JSRuntime.InvokeVoidAsync(
       "util.showTooltip", x, y, msg
@@ -397,9 +376,9 @@
     await JSRuntime.InvokeVoidAsync("util.hideTooltip");
   }
 
-  private async void HousingClickedIM(int houseId, string houseStatus)
+  private async void HousingClickedIM(int houseId, House.StatusType houseStatus)
   {
-    if (houseStatus == "available" || houseStatus == "booked")
+    if (houseStatus == House.StatusType.Available || houseStatus == House.StatusType.Booked)
     {
       var mobile = await JSRuntime.InvokeAsync<bool>("util.isDevice");
       if (mobile && MobileSelection != houseId)

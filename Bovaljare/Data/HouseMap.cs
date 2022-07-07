@@ -9,13 +9,9 @@ namespace Bovaljare.Data
   {
     private static Dictionary<string, List<HouseMap>> data;
     private static readonly Dictionary<string, string> imageToVariant = new Dictionary<string, string> {
-      { "IMG/OversiktStora_medium.jpg", "view-1" },
-      { "IMG/Oversikt1-5_medium.jpg", "view-2" },
-      { "IMG/SolHav_Overview_V3_BeautyElement.jpg", "view-2" },
-      { "IMG/Oversikt_V2_medium.jpg", "view-3" },
-      { "IMG/Oversikt8_medium.jpg", "view-4" },
-      { "IMG/Oversikt11_medium.jpg", "view-5" },
-      { "IMG/OversiktStora_medium2.jpg", "view-6" },
+      { "IMG/exterior/solhav_PerspectiveMatch_oversikt.jpg", "view-1" },
+      { "IMG/exterior/SolHav_Oversikt_V3_BeautyElement.jpg", "view-2" },
+      { "IMG/exterior/solhav_PerspectiveMatch_oversikt2.jpg", "view-3" },
     };
 
     public int ID { get; set; }
@@ -29,11 +25,11 @@ namespace Bovaljare.Data
       {
         /// Create new HouseMap data from each view-X.json file.
         data = new Dictionary<string, List<HouseMap>>();
-        string[] viewFileNames = { "view-2.json" };
-        string folderPath = @"wwwroot\data\views\";
+        DirectoryInfo dir = new DirectoryInfo(@"wwwroot\data\views\");
+        FileInfo[] filenames = dir.GetFiles("*.json");
 
-        foreach (string fileName in viewFileNames) {
-          string filePath = Path.Combine(folderPath, fileName);
+        foreach (FileInfo filename in filenames) {
+          string filePath = filename.FullName;
           string json = "";
           using (FileStream fs = File.OpenRead(filePath)) {
             byte[] b = new byte[1024];

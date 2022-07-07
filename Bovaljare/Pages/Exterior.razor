@@ -37,7 +37,7 @@
               {
                 @foreach (HouseMap map in view.Value)
                 {
-                  string houseStatus = "available";
+                  var houseStatus = House.StatusType.Available;
                   if (map.ID > 0)
                     houseStatus = House.Get(map.ID).Status;
 
@@ -128,41 +128,19 @@
       Name = "view-1",
       DisplayName = "Översikt",
       ImageMapName = "imagemap-1",
-      SourceImgName = "IMG/OversiktStora_medium.jpg",
+      SourceImgName = "IMG/exterior/solhav_PerspectiveMatch_oversikt.jpg",
     },
 
     new ViewData() {
       Name = "view-2",
-      DisplayName = "Etapp 1, radhus och kedjehus",
+      DisplayName = "Radhus",
       ImageMapName = "imagemap-2",
-      SourceImgName = "IMG/Oversikt1-5_medium.jpg",
-      //SourceImgName = "IMG/SolHav_Overview_V3_BeautyElement.jpg",
-    },
-
-    new ViewData() {
-      Name = "view-3",
-      DisplayName = "Villor",
-      ImageMapName = "imagemap-3",
-      SourceImgName = "IMG/Oversikt_V2_medium.jpg",
-    },
-
-    new ViewData() {
-      Name = "view-4",
-      DisplayName = "Etapp 2, Brf-radhus",
-      ImageMapName = "imagemap-4",
-      SourceImgName = "IMG/Oversikt8_medium.jpg",
-    },
-
-    new ViewData() {
-      Name = "view-5",
-      DisplayName = "Etapp 2 – radhus och kedjehus",
-      ImageMapName = "imagemap-5",
-      SourceImgName = "IMG/Oversikt11_medium.jpg",
+      SourceImgName = "IMG/exterior/SolHav_Oversikt_V3_BeautyElement.jpg",
     }
   );
 
   public Dictionary<string, List<HouseMap>> MapData { get; set; }
-  private string CurrentView { get; set; } = "view-1"; //this can be set to a diffrent inte depending on wich starting "overview is needed" 0 is the first class object in the views list.  
+  private string CurrentView { get; set; } = "view-2"; //this can be set to a diffrent inte depending on wich starting "overview is needed" 0 is the first class object in the views list.  
   /* SUNSTUDY
   private string CurrentStudy { get; set; } = "midday"; // displays the current images in views -> SunStudies dictionary. cant be used if a dropdown sunstudy is needed to switch between diffrent images (time of the day) on the overviewImage.
      /SUNSTUDY */
@@ -290,21 +268,20 @@
           }
         }
 
-        if (house.Status != "available") {
-          msg = house.Status;
-        }
-        else if (house.ID < 16) {
-          msg = "Hus nr.:         \t" + "  " + houseNumber +
-                "\nBoarea:        \t" + "  " + house.Sqm +
-                "\nPris:          \t" + "  " + house.Price +
-                "\nHyra:          \t" + "  " + house.Rent +
-                "\nUpplåtelseform: " + house.Propertytyp;
+        var prettyStr = delegate(string str) {
+          return str != null ? str : "-";
+        };
+
+        if (house.Status != House.StatusType.Available) {
+          msg = House.StatusDisplayName[house.Status];
         }
         else {
-          msg = "Hus nr.:    \t" + "  " + houseNumber +
-                "\nBoarea:   \t" + "  " + house.Sqm +
-                "\nPris:     \t" + "          " + house.Price +
-                "\nUpplåtelseform: " + house.Propertytyp;
+          msg = String.Format("Adress:\t\t\t{0}\nBoyta:\t\t\t{1}\nPris:\t\t\t{2}{3}\nUpplåtelseform:\t{4}",
+                              house.Address,
+                              prettyStr(house.Sqm),
+                              prettyStr(house.Price),
+                              house.Rent != null ? "\nHyra:\t\t\t" + house.Rent : "",
+                              prettyStr(house.PropertyType));
         }
 
         await JSRuntime.InvokeVoidAsync(
@@ -339,43 +316,37 @@
 
   // Takes the user to the Interior page with the housenumber that is selected,
   // unless the current view is an overview, then the user is taken to a diffrent view instead.
-  private async void HousingClicked(int houseId, string viewName, string viewId, string houseStatus)
+  private async void HousingClicked(int houseId, string viewName, string viewId, House.StatusType houseStatus)
   {
-    if (viewName == "view-1")
+    if (houseStatus == House.StatusType.Available || houseStatus == House.StatusType.Booked)
     {
-      if (houseStatus == "available" || houseStatus == "booked")
+      if (viewName == "view-1")
       {
         this.CurrentView = viewId;
 
         await JSRuntime.InvokeVoidAsync("exterior.changeImage", viewId);
         /* SUNSTUDY
         await JSRuntime.InvokeVoidAsync("exterior.changeImage", viewId, this.CurrentStudy);
-           /SUNSTUDY */
+            /SUNSTUDY */
 
         this.MobileSelection = -1;
         base.StateHasChanged();
       }
-
-      else
+      else 
       {
-        return;
-      }
-    }
-
-    else if (houseStatus == "available" || houseStatus == "booked")
-    {
-      var mobile = await JSRuntime.InvokeAsync<bool>("util.isDevice");
-      if (mobile && MobileSelection != houseId)
-      {
-        //ShowTooltip(x, y, houseID);
-        MobileSelection = houseId;
-      }
-      else
-      {
-        await JSRuntime.InvokeVoidAsync("util.disableContent");
-        await JSRuntime.InvokeVoidAsync("util.disableClickMenu");
-        await JSRuntime.InvokeVoidAsync("util.hideTooltip");
-        navManager.NavigateTo("/interior/" + houseId);
+        var mobile = await JSRuntime.InvokeAsync<bool>("util.isDevice");
+        if (mobile && MobileSelection != houseId)
+        {
+          //ShowTooltip(x, y, houseID);
+          MobileSelection = houseId;
+        }
+        else
+        {
+          await JSRuntime.InvokeVoidAsync("util.disableContent");
+          await JSRuntime.InvokeVoidAsync("util.disableClickMenu");
+          await JSRuntime.InvokeVoidAsync("util.hideTooltip");
+          navManager.NavigateTo("/interior/" + houseId);
+        }
       }
     }
   }

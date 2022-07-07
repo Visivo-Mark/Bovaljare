@@ -104,4 +104,9 @@
     <None Include="wwwroot\data\pan_options.js" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\IMG\exterior\" />
+    <Folder Include="wwwroot\IMG\interior\" />
+  </ItemGroup>
+
 </Project>

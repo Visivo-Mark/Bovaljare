@@ -2,11 +2,11 @@
   window.mapster = {
     addMapHighlights: function (parentID, imgID, mapID, classList, highlightOpacity, selectOpacity) {
       var colors = {
-        available: '5bcb24',
-        booked: 'dfd431',
-        sold: 'd32626',
-        coming: 'C0C0C0',
-        showcase: '1520A6',
+        Available: '5bcb24',
+        Booked: 'dfd431',
+        Sold: 'd32626',
+        Upcoming: 'C0C0C0',
+        Showcase: '1520A6',
         interior: '415965'
       };
 

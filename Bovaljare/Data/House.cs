@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.IO;
+using ClosedXML.Excel;
 
 namespace Bovaljare.Data
 {
@@ -45,41 +47,45 @@ namespace Bovaljare.Data
       return new House { ID = 0, Sqm = "148 m²", LandArea = "-", Price = "-", Rent = "-", HouseNumber = "0", Status = StatusType.Available, Housetype = "V2-color" };
     }
 
+    public static StatusType GetStatusType(string status) {
+      foreach (KeyValuePair<StatusType, string> statusPair in StatusDisplayName) {
+        if (statusPair.Value == status)
+          return statusPair.Key;
+      }
+
+      return StatusType.Available;
+    }
+
     public static List<House> GetHouseData()
     {
       if (houseData == null)
       {
-        int id = 1;
-        houseData = new List<House> {
-          new House { ID = id++, HouseNumber = "132", Sqm = "154 m²", LandArea = "401 m²", Price = "6 454 000 kr", PropertyType = "Äganderätt", Address = "Ostronvägen 1", Status = StatusType.Available, Housetype="SH-1", HouseFact="Brf1Husnr13.pdf" },
-          new House { ID = id++, HouseNumber = "125", Sqm = "154 m²", LandArea = "360 m²", Price = "6 454 000 kr", PropertyType = "Äganderätt", Address = "Ostronvägen 2", Status = StatusType.Available, Housetype="SH-1", HouseFact="Brf1Husnr6.pdf" },
-          new House { ID = id++, HouseNumber = "131", Sqm = "154 m²", LandArea = "234 m²", Price = "6 454 000 kr", PropertyType = "Äganderätt", Address = "Ostronvägen 3", Status = StatusType.Available, Housetype="SH-1", HouseFact="Brf1Husnr12.pdf" },
-          new House { ID = id++, HouseNumber = "124", Sqm = "154 m²", LandArea = "307 m²", Price = "6 454 000 kr", PropertyType = "Äganderätt", Address = "Ostronvägen 4", Status = StatusType.Available, Housetype="SH-1", HouseFact="Brf1Husnr5.pdf" },
-          new House { ID = id++, HouseNumber = "130", Sqm = "154 m²", LandArea = "324 m²", Price = "6 454 000 kr", PropertyType = "Äganderätt", Address = "Ostronvägen 5", Status = StatusType.Available, Housetype="SH-1", HouseFact="Brf1Husnr11.pdf" },
-          new House { ID = id++, HouseNumber = "123", Sqm = "154 m²", LandArea = "307 m²", Price = "6 454 000 kr", PropertyType = "Äganderätt", Address = "Ostronvägen 6", Status = StatusType.Available, Housetype="SH-1", HouseFact="Brf1Husnr4.pdf" },
-          new House { ID = id++, HouseNumber = "129", Sqm = "154 m²", LandArea = "324 m²", Price = "6 454 000 kr", PropertyType = "Äganderätt", Address = "Ostronvägen 7", Status = StatusType.Available, Housetype="SH-1", HouseFact="Brf1Husnr10.pdf" },
-          new House { ID = id++, HouseNumber = "122", Sqm = "154 m²", LandArea = "307 m²", Price = "6 454 000 kr", PropertyType = "Äganderätt", Address = "Ostronvägen 8", Status = StatusType.Available, Housetype="SH-1", HouseFact="Brf1Husnr3.pdf" },
-          new House { ID = id++, HouseNumber = "128", Sqm = "154 m²", LandArea = "324 m²", Price = "6 454 000 kr", PropertyType = "Äganderätt", Address = "Ostronvägen 9", Status = StatusType.Available, Housetype="SH-1", HouseFact="Brf1Husnr9.pdf" },
-          new House { ID = id++, HouseNumber = "121", LandArea = "307 m²", Address = "Ostronvägen 10", Status = StatusType.Showcase, Housetype="SH-1", HouseFact="Brf1Husnr2.pdf" },
-          new House { ID = id++, HouseNumber = "127", LandArea = "324 m²", Address = "Ostronvägen 11", Status = StatusType.Showcase, Housetype="SH-1", HouseFact="Brf1Husnr8.pdf" },
-          new House { ID = id++, HouseNumber = "120", Sqm = "120,5 m²", LandArea = "344 m²", Price = "5 650 000 kr", PropertyType = "Äganderätt", Address = "Ostronvägen 12", Status = StatusType.Available, Housetype="SH-1", HouseFact="Brf1Husnr1.pdf" },
-          new House { ID = id++, HouseNumber = "126", Sqm = "120,5 m²", LandArea = "359 m²", Price = "5 650 000 kr", PropertyType = "Äganderätt", Address = "Ostronvägen 13", Status = StatusType.Available, Housetype="SH-1", HouseFact="Brf1Husnr7.pdf" },
-          new House { ID = id++, HouseNumber = "147", Sqm = "154 m²", LandArea = "389 m²", Price = "6 454 000 kr", PropertyType = "Äganderätt", Address = "Räkvägen 1", Status = StatusType.Available, Housetype="SH-1", HouseFact="BRF2_28.pdf" },
-          new House { ID = id++, HouseNumber = "140", Sqm = "154 m²", LandArea = "462 m²", Price = "6 454 000 kr", PropertyType = "Äganderätt", Address = "Räkvägen 2", Status = StatusType.Available, Housetype="SH-1", HouseFact="Ag3Husnr21.pdf" },
-          new House { ID = id++, HouseNumber = "146", Sqm = "154 m²", LandArea = "310 m²", Price = "6 454 000 kr", PropertyType = "Äganderätt", Address = "Räkvägen 3", Status = StatusType.Available, Housetype="SH-1", HouseFact="BRF2_27.pdf" },
-          new House { ID = id++, HouseNumber = "139", Sqm = "154 m²", LandArea = "356 m²", Price = "6 454 000 kr", PropertyType = "Äganderätt", Address = "Räkvägen 4", Status = StatusType.Available, Housetype="SH-1", HouseFact="Ag3Husnr20.pdf" },
-          new House { ID = id++, HouseNumber = "145", Sqm = "154 m²", LandArea = "312 m²", Price = "6 454 000 kr", PropertyType = "Äganderätt", Address = "Räkvägen 5", Status = StatusType.Available, Housetype="SH-1", HouseFact="BRF2_26.pdf" },
-          new House { ID = id++, HouseNumber = "138", Sqm = "154 m²", LandArea = "339 m²", Price = "6 454 000 kr", PropertyType = "Äganderätt", Address = "Räkvägen 6", Status = StatusType.Available, Housetype="SH-1", HouseFact="Ag3Husnr19.pdf" },
-          new House { ID = id++, HouseNumber = "144", Sqm = "154 m²", LandArea = "313 m²", Price = "6 454 000 kr", PropertyType = "Äganderätt", Address = "Räkvägen 7", Status = StatusType.Available, Housetype="SH-1", HouseFact="BRF2_25.pdf" },
-          new House { ID = id++, HouseNumber = "137", Sqm = "154 m²", LandArea = "325 m²", Price = "6 454 000 kr", PropertyType = "Äganderätt", Address = "Räkvägen 8", Status = StatusType.Available, Housetype="SH-1", HouseFact="Ag3Husnr18.pdf" },
-          new House { ID = id++, HouseNumber = "143", Sqm = "154 m²", LandArea = "309 m²", Price = "6 454 000 kr", PropertyType = "Äganderätt", Address = "Räkvägen 9", Status = StatusType.Available, Housetype="SH-1", HouseFact="BRF2_24.pdf" },
-          new House { ID = id++, HouseNumber = "136", Sqm = "154 m²", LandArea = "319 m²", Price = "6 454 000 kr", PropertyType = "Äganderätt", Address = "Räkvägen 10", Status = StatusType.Available, Housetype="SH-1", HouseFact="Ag3Husnr17.pdf" },
-          new House { ID = id++, HouseNumber = "142", LandArea = "309 m²", Address = "Räkvägen 11", Status = StatusType.Showcase, Housetype="SH-1", HouseFact="Ag3Husnr23.pdf" },
-          new House { ID = id++, HouseNumber = "135", LandArea = "316 m²", Address = "Räkvägen 12", Status = StatusType.Showcase, Housetype="SH-1", HouseFact="Ag3Husnr16.pdf" },
-          new House { ID = id++, HouseNumber = "141", Sqm = "120,5 m²", LandArea = "356 m²", Price = "5 650 000 kr", PropertyType = "Äganderätt", Address = "Räkvägen 13", Status = StatusType.Available, Housetype="SH-1", HouseFact="Ag3Husnr22.pdf" },
-          new House { ID = id++, HouseNumber = "134", LandArea = "314 m²", Address = "Räkvägen 14", Status = StatusType.Showcase, Housetype="SH-1", HouseFact="Brf1Husnr15.pdf" },
-          new House { ID = id++, HouseNumber = "133", Sqm = "120,5 m²", LandArea = "360 m²", Price = "5 650 000 kr", PropertyType = "Äganderätt", Address = "Räkvägen 16", Status = StatusType.Available, Housetype="SH-1", HouseFact="Brf1Husnr14.pdf" },
-        };
+        using (var memStream = new MemoryStream()) {
+          
+          GoogleDrive.GetFileStream(memStream);
+
+          var excel = new XLWorkbook(memStream);
+          var sheet = excel.Worksheet("Projekt1");
+          int totalHouses = sheet.LastRowUsed().RowNumber() - 1;
+
+          houseData = new List<House>(totalHouses);
+          for (int id = 1; id <= totalHouses; id++) {
+            int row = id + 1;
+            houseData.Add(new House {
+              ID = id,
+              HouseNumber = sheet.Cell(row, 1).GetString(),
+              Address = sheet.Cell(row, 2).GetString(),
+              Sqm = sheet.Cell(row, 3).GetString(),
+              LandArea = sheet.Cell(row, 4).GetString(),
+              Price = sheet.Cell(row, 5).GetFormattedString(),
+              Rent = sheet.Cell(row, 6).GetFormattedString(),
+              PropertyType = sheet.Cell(row, 7).GetString(),
+              Housetype = sheet.Cell(row, 8).GetString(),
+              Status = GetStatusType(sheet.Cell(row, 9).GetString()),
+              HouseFact = sheet.Cell(row, 10).GetString(),
+            });
+          }
+        }
       }
 
       return houseData;

@@ -227,7 +227,9 @@
     MouseOut = MouseOut + 1;
 
     MouseOverHouse = "";
-    await JSRuntime.InvokeVoidAsync("util.hideTooltip");
+    try {
+      await JSRuntime.InvokeVoidAsync("util.hideTooltip");
+    } catch (TaskCanceledException _) {}
   }
 
   // shows diffrent tooltip depending on mouse in and mouse out intergers and what view is currently active (some views contains imagemaps with houseumbers, some "overviews" contains imagemaps with other views in them.)
@@ -252,9 +254,11 @@
       {
         msg = views.GetView(viewId).DisplayName;
 
-        await JSRuntime.InvokeVoidAsync(
-          "util.showTooltip", x, y, msg
-        );
+        try {
+          await JSRuntime.InvokeVoidAsync(
+            "util.showTooltip", x, y, msg
+          );
+        } catch (TaskCanceledException _) {}
       }
       else
       {
@@ -284,9 +288,11 @@
                               prettyStr(house.PropertyType));
         }
 
-        await JSRuntime.InvokeVoidAsync(
-          "util.showTooltip", x, y, msg
-        );
+        try {
+          await JSRuntime.InvokeVoidAsync(
+            "util.showTooltip", x, y, msg
+          );
+        } catch (TaskCanceledException _) {}
       }
     }
   }
@@ -342,9 +348,11 @@
         }
         else
         {
-          await JSRuntime.InvokeVoidAsync("util.disableContent");
-          await JSRuntime.InvokeVoidAsync("util.disableClickMenu");
-          await JSRuntime.InvokeVoidAsync("util.hideTooltip");
+          try {
+            await JSRuntime.InvokeVoidAsync("util.disableContent");
+            await JSRuntime.InvokeVoidAsync("util.disableClickMenu");
+            await JSRuntime.InvokeVoidAsync("util.hideTooltip");
+          } catch (TaskCanceledException _) {}
           navManager.NavigateTo("/interior/" + houseId);
         }
       }

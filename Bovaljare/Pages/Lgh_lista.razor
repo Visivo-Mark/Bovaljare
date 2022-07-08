@@ -161,9 +161,11 @@
       }
       else
       {
-        await JSRuntime.InvokeVoidAsync("util.disableContent");
-        await JSRuntime.InvokeVoidAsync("util.disableClickMenu");
-        await JSRuntime.InvokeVoidAsync("util.hideTooltip");
+        try {
+          await JSRuntime.InvokeVoidAsync("util.disableContent");
+          await JSRuntime.InvokeVoidAsync("util.disableClickMenu");
+          await JSRuntime.InvokeVoidAsync("util.hideTooltip");
+        } catch (TaskCanceledException _) {}
         navManager.NavigateTo("/interior/" + houseID);
       }
     }
@@ -266,8 +268,10 @@
     MouseOut = MouseOut + 1;
 
     MouseOverHouse = "";
-    await JSRuntime.InvokeVoidAsync("util.hideTooltip");
-    await JSRuntime.InvokeVoidAsync("lgh_lista.removeFocusListItem", houseNumber);
+    try {
+      await JSRuntime.InvokeVoidAsync("util.hideTooltip");
+      await JSRuntime.InvokeVoidAsync("lgh_lista.removeFocusListItem", houseNumber);
+    } catch (TaskCanceledException _) {}
     //if (IsHighlighting)
     //{
     //  await this.HouseList.ClearRowSelection();
@@ -366,14 +370,18 @@
       msg = String.Format("Adress:\t{0}\nBoyta:\t{1}\nPris:\t{2}",
                           house.Address, prettyStr(house.Sqm), prettyStr(house.Price));
 
-    await JSRuntime.InvokeVoidAsync(
-      "util.showTooltip", x, y, msg
-    );
+    try {
+      await JSRuntime.InvokeVoidAsync(
+        "util.showTooltip", x, y, msg
+      );
+    } catch (TaskCanceledException _) {}
   }
 
   private async void HideTooltip()
   {
-    await JSRuntime.InvokeVoidAsync("util.hideTooltip");
+    try {
+      await JSRuntime.InvokeVoidAsync("util.hideTooltip");
+    } catch (TaskCanceledException _) {}
   }
 
   private async void HousingClickedIM(int houseId, House.StatusType houseStatus)
@@ -387,9 +395,11 @@
       }
       else
       {
-        await JSRuntime.InvokeVoidAsync("util.disableContent");
-        await JSRuntime.InvokeVoidAsync("util.disableClickMenu");
-        await JSRuntime.InvokeVoidAsync("util.hideTooltip");
+        try {
+          await JSRuntime.InvokeVoidAsync("util.disableContent");
+          await JSRuntime.InvokeVoidAsync("util.disableClickMenu");
+          await JSRuntime.InvokeVoidAsync("util.hideTooltip");
+        } catch (TaskCanceledException _) {}
         navManager.NavigateTo("/interior/" + houseId);
       }
     }

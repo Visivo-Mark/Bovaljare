@@ -58,7 +58,7 @@ namespace Bovaljare.Data
 
     public static List<House> GetHouseData()
     {
-      if (houseData == null)
+      if (houseData == null || true) //true so that the data is loaded at real time, TODO fix so it only needs to redownload when updated...
       {
         using (var memStream = new MemoryStream()) {
           

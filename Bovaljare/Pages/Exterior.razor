@@ -269,7 +269,7 @@
         }
 
         var prettyStr = delegate(string str) {
-          return str != null ? str : "-";
+          return str != null && str != "" ? str : "-";
         };
 
         if (house.Status != House.StatusType.Available) {
@@ -280,7 +280,7 @@
                               house.Address,
                               prettyStr(house.Sqm),
                               prettyStr(house.Price),
-                              house.Rent != null ? "\nHyra:\t\t\t" + house.Rent : "",
+                              house.Rent != null && house.Rent != "" ? "\nHyra:\t\t\t" + house.Rent : "",
                               prettyStr(house.PropertyType));
         }
 

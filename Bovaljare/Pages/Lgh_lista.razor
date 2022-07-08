@@ -357,7 +357,7 @@
     House house = HouseData.Find(h => h.HouseNumber == houseNumber);
 
     var prettyStr = delegate(string str) {
-      return str != null ? str : "-";
+      return str != null && str != "" ? str : "-";
     };
 
     if (house.Status != House.StatusType.Available)

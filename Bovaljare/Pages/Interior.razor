@@ -257,8 +257,6 @@
     base.StateHasChanged();
   }
 
-
-
   private async void OnClickHotspot(int roomID)
   {
     HouseType.Image oldImage = this.SelectedImage;
@@ -284,7 +282,6 @@
     await JSRuntime.InvokeVoidAsync("util.matchHeightToWidth", "roundme-embedded");
     await JSRuntime.InvokeVoidAsync("interior.changeRoom", oldImage, SelectedImage);
   }
-
 
   private async void ChangeFloor(int floor)
   {
@@ -312,6 +309,7 @@
     //await JSRuntime.InvokeVoidAsync("pan_viewer.dispose");
   }
 }
+
 
 <style>
 

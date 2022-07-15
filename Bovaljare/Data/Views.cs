@@ -7,6 +7,7 @@ namespace Bovaljare.Data
     public string Name { get; set; }
     public string DisplayName { get; set; }
     public string SourceImgName { get; set; }
+    public Dictionary<string, string> SunStudies { get; set; }
     public string ImageMapName { get; set; }
     public bool Initialized { get; set; } = false;
   }

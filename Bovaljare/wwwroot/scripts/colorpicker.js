@@ -11,7 +11,7 @@
     },
 
 
-    hidecolorpicker: function () {
+    hideColorpicker: function () {
       if ($(houseinputid).val() == 99) {
         $(colorpick).removeClass("colorpickermenu")
         $(colorpick).addClass("colorpickermenu2")
@@ -26,10 +26,10 @@
     //    $('.mapster_el').height(newheight)
     //},
 
-    adjustpan: function () {
-      var width1 = parseInt($('#carousel-item-0').width());
-      width1 = width1 * 0.75
-      $('.iframe-container iframe').height(width1 + 'px');
+    adjustPan: function () {
+      var width = parseInt($('#carousel-item-0').width());
+      width = width * 0.75
+      $('.iframe-container iframe').height(width + 'px');
     },
 
     addResizeListener: function () {

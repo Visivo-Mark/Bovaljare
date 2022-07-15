@@ -7,11 +7,19 @@ namespace Bovaljare.Data
 {
   public class HouseMap
   {
-    private static Dictionary<string, List<HouseMap>> data;
+    private static Dictionary<string, Dictionary<string, List<HouseMap>>> data =
+      new Dictionary<string, Dictionary<string, List<HouseMap>>>();
     private static readonly Dictionary<string, string> imageToVariant = new Dictionary<string, string> {
-      { "IMG/exterior/solhav_PerspectiveMatch_oversikt.jpg", "view-1" },
-      { "IMG/exterior/SolHav_Oversikt_V3_BeautyElement.jpg", "view-2" },
-      { "IMG/exterior/solhav_PerspectiveMatch_oversikt2.jpg", "view-3" },
+      { "IMG/WIJK/exterior/OversiktStora_medium.jpg", "view-1" },
+      { "IMG/WIJK/exterior/Oversikt1-5_medium.jpg", "view-2" },
+      { "IMG/WIJK/exterior/Oversikt_V2_medium.jpg", "view-3" },
+      { "IMG/WIJK/exterior/Oversikt8_medium.jpg", "view-4" },
+      { "IMG/WIJK/exterior/Oversikt11_medium.jpg", "view-5" },
+      { "IMG/WIJK/exterior/OversiktStora_medium2.jpg", "view-6" },
+
+      { "IMG/SolHav/exterior/solhav_PerspectiveMatch_oversikt.jpg", "view-1" },
+      { "IMG/SolHav/exterior/SolHav_Oversikt_V3_BeautyElement.jpg", "view-2" },
+      { "IMG/SolHav/exterior/solhav_PerspectiveMatch_oversikt2.jpg", "view-3" },
     };
 
     public int ID { get; set; }
@@ -19,13 +27,13 @@ namespace Bovaljare.Data
     public string IMCoords { get; set; }
     public string View { get; set; }
 
-    public static Dictionary<string, List<HouseMap>> GetHouseMapData()
+    public static Dictionary<string, List<HouseMap>> GetHouseMapData(string project)
     {
-      if (data == null)
+      if (!data.ContainsKey(project))
       {
         /// Create new HouseMap data from each view-X.json file.
-        data = new Dictionary<string, List<HouseMap>>();
-        DirectoryInfo dir = new DirectoryInfo(@"wwwroot\data\views\");
+        Dictionary<string, List<HouseMap>> projectData = new Dictionary<string, List<HouseMap>>();
+        DirectoryInfo dir = new DirectoryInfo(@"wwwroot\data\views\" + project + @"\");
         FileInfo[] filenames = dir.GetFiles("*.json");
 
         foreach (FileInfo filename in filenames) {
@@ -59,12 +67,12 @@ namespace Bovaljare.Data
               );
             }
           }
-          data.Add(Path.GetFileNameWithoutExtension(filePath), houseMaps);
+          projectData.Add(Path.GetFileNameWithoutExtension(filePath), houseMaps);
         }
 
         /// Get the id corresponding to a map's house number, in order to link each mapping to a house or apt.
-        List<House> houseData = House.GetHouseData();
-        foreach (KeyValuePair<string, List<HouseMap>> view in data)
+        List<House> houseData = House.GetHouseData(project);
+        foreach (KeyValuePair<string, List<HouseMap>> view in projectData)
         {
           foreach (HouseMap map in view.Value)
           {
@@ -74,9 +82,11 @@ namespace Bovaljare.Data
               map.ID = -1;
           }
         }
+
+        data.Add(project, projectData);
       }
 
-      return data;
+      return data[project];
     }
 
     public static string ImageNameToVariant(string fileName)

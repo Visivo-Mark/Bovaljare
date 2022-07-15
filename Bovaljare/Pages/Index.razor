@@ -1,0 +1,40 @@
+﻿@page "/"
+
+@inject NavigationManager navManager
+
+<h3>Index</h3>
+<ul class="menu" style="color:white;">
+  <li><a style="color:#415965;" href="wijk">WIJK</a></li>
+  <li><a style="color:#415965;" href="solhav">SolHav</a></li>
+  <li><a style="color:#415965;" href="kilen">Kilen</a></li>
+</ul>
+
+@code {
+  public enum ProjectType {
+    WIJK,
+    SolHav,
+    Kilen
+  }
+
+  public static Dictionary<ProjectType, string> ProjectName = new Dictionary<ProjectType, string> {
+    { ProjectType.WIJK, "WIJK" },
+    { ProjectType.SolHav, "SolHav" },
+    { ProjectType.Kilen, "Kilen" },
+  };
+
+  /** project
+   * <summary>
+   * Navigate immediately to project, useful to quick debugging.
+   * </summary>
+   */
+  private ProjectType project = ProjectType.SolHav;
+
+
+  protected override async Task OnInitializedAsync() {
+#if RELEASE
+    navManager.NavigateTo("/" + ProjectName[ProjectType.WIJK].ToLower());
+#else
+    navManager.NavigateTo("/" + ProjectName[project].ToLower());
+#endif
+  }
+}

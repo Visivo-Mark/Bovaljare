@@ -21,7 +21,7 @@
       $('#topnav').addClass('loading');
     },
 
-    hidecolorpicker: function () {
+    hideColorpicker: function () {
       if ($('#houseinputid').val() > 28 && $(houseinputid).val() < 40) {
         $('#colorpick').removeClass('hidecolorpicker');
         $('#colorpick').addClass('showcolorpicker');

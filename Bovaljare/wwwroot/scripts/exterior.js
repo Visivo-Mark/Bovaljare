@@ -2,64 +2,62 @@
   window.exterior = {
     images: [],
     mapIndex: {},
+    isSunStudy: false,
 
-    loadImages: async function (data) {
+    loadImages: async function (data, isSunStudy) {
       var self = this, ind = 0,
-        imagesLoaded = data.length,
+        imagesLoaded = isSunStudy && data.length * 3 || data.length,
         onLoadImg = function () { imagesLoaded = imagesLoaded - 1; };
+
       // Load images that use image maps every time
       // TODO: fix so it's not neccessary to load every time;
       //       some bug causes only some image maps to load otherwise
       data.forEach((view, i) => {
-        var source, img;
+        if (isSunStudy) {
+          var name, source, img;
+          for (name in view.sunStudies) {
+            source = view.sunStudies[name];
+            img = new Image();
+            img.onload = onLoadImg;
+            img.id = 'sun-study-' + i + '-' + name + '-img';
+            img.src = source;
+            $(img).attr({
+              view: i,
+              'sun-study': name,
+            });
+            self.images.push({
+              img: img,
+              parentID: '#view-' + i + ' #sun-study-' + name,
+              usemap: '#houses-' + i + '-' + name,
+              style: { width: '99%' },
+            });
 
-        source = view.sourceImgName;
-        img = new Image();
-        img.onload = onLoadImg;
-        img.id = i + '-img';
-        img.src = source;
-        $(img).attr({
-          view: i,
-        });
-        self.images.push({
-          img: img,
-          parentID: '#view-' + i,
-          usemap: '#houses-' + i,
-          style: { width: '99%' },
-        });
+            self.mapIndex[name + view.Name] = ind++;
+          }
+        }
+        else {
+          var source, img;
 
-        self.mapIndex[view.Name] = ind++;
-        /* SUNSTUDY
-        imagesLoaded = data.length * 3;
-        var name, source, img;
-        for (name in view.sunStudies) {
-          source = view.sunStudies[name];
+          source = view.sourceImgName;
           img = new Image();
           img.onload = onLoadImg;
-          img.id = 'sun-study-' + i + '-' + name + '-img';
+          img.id = i + '-img';
           img.src = source;
           $(img).attr({
             view: i,
-            'sun-study': name,
           });
           self.images.push({
             img: img,
-            parentID: '#view-' + i + ' #sun-study-' + name,
-            usemap: '#houses-' + i + '-' + name,
+            parentID: '#view-' + i,
+            usemap: '#houses-' + i,
             style: { width: '99%' },
           });
         }
-        /SUNSTUDY */
+
+        self.mapIndex[view.Name] = ind++;
       });
 
-      /* SUNSTUDY
-      var i, name, ind = 0;
-      for (i in data) {
-        for (name in data[i].sunStudies) {
-          this.mapIndex[name + i] = ind++;
-        }
-      }
-      /SUNSTUDY */
+      this.isSunStudy = isSunStudy;
 
       while (imagesLoaded > 0) {
         await util.delay(100);
@@ -86,38 +84,36 @@
       this.changeImage(0, 'midday');
     },
 
-    changeImage: function (view) {
-      mapster_responsive.changeImage(this.mapIndex[view]);
-    },
-    /* SUNSTUDY
     changeImage: function (view, sunStudy) {
-      mapster_responsive.changeImage(this.mapIndex[sunStudy + view]);
+      if (isSunStudy)
+        mapster_responsive.changeImage(this.mapIndex[sunStudy + view]);
+      else
+        mapster_responsive.changeImage(this.mapIndex[view]);
     },
-    /SUNSTUDY */
 
     _loadIM: function (img, imgWidth) {
-      var view = $(img).attr('view'),
-        imgWidth = imgWidth || $(img).css('width'),
-        parentID = 'view-' + view,
-        imgID = view + '-img',
-        mapName = 'houses-' + view;
+      if (isSunStudy) {
+        var view = $(img).attr('view'),
+          sunStudy = $(img).attr('sun-study'),
+          imgWidth = imgWidth || $(img).css('width'),
+          parentID = 'view-' + view + ' #sun-study-' + sunStudy,
+          imgID = 'sun-study-' + view + '-' + sunStudy + '-img',
+          mapName = 'houses-' + view + '-' + sunStudy;
 
-      mapster_responsive.setValues(this.mapIndex[view], parentID, imgWidth);
-      mapster.addMapHighlights(parentID, imgID, mapName, 'center');
-    },
-    /* SUNSTUDY
-    _loadIM: function (img, imgWidth) {
-      var view = $(img).attr('view'),
-        sunStudy = $(img).attr('sun-study'),
-        imgWidth = imgWidth || $(img).css('width'),
-        parentID = 'view-' + view + ' #sun-study-' + sunStudy,
-        imgID = 'sun-study-' + view + '-' + sunStudy + '-img',
-        mapName = 'houses-' + view + '-' + sunStudy;
+        mapster_responsive.setValues(this.mapIndex[sunStudy + view], parentID, imgWidth);
+        mapster.addMapHighlights(parentID, imgID, mapName, 'center');
+      }
+      else {
+        var view = $(img).attr('view'),
+          imgWidth = imgWidth || $(img).css('width'),
+          parentID = 'view-' + view,
+          imgID = view + '-img',
+          mapName = 'houses-' + view;
 
-      mapster_responsive.setValues(this.mapIndex[sunStudy + view], parentID, imgWidth);
-      mapster.addMapHighlights(parentID, imgID, mapName, 'center');
+        mapster_responsive.setValues(this.mapIndex[view], parentID, imgWidth);
+        mapster.addMapHighlights(parentID, imgID, mapName, 'center');
+      }
     },
-    /SUNSTUDY */
 
     dispose: function () {
       mapster.dispose();

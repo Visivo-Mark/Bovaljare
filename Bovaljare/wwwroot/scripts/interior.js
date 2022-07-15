@@ -10,18 +10,18 @@
       roundme: 3,
     },
 
-    hidecolorpicker: function () {
+    hideColorpicker: function () {
       if ($('#houseinputid').val() > 44 && $(houseinputid).val() < 56) {
         $('#colorpick').removeClass("colorpickermenu")
-        $('#colorpick').removeClass("hidecolorpicker")
-        $('#colorpick').addClass("colorpickermenu2")
-        $('#colorpickslink').addClass("animate__animated animate__bounce")
+                       .removeClass("hidecolorpicker")
+                       .addClass("colorpickermenu2");
+        $('#colorpickslink').addClass("animate__animated animate__bounce");
       }
     },
 
-    addanimation: function () {
-      $(".icons").removeClass("animate__animated animate__bounce")
-      $('.icons').addClass("animate__animated animate__bounce")
+    addAnimation: function () {
+      $(".icons").removeClass("animate__animated animate__bounce");
+      $('.icons').addClass("animate__animated animate__bounce");
     },
 
     //adjustfloorplan: function () {
@@ -31,10 +31,10 @@
     //    $('.mapster_el').height(newheight)
     //},
 
-    adjustpan: function () {
-      var width1 = parseInt($('#carousel-item-0').width());
-      width1 = width1 * 0.75
-      $('.iframe-container iframe').height(width1 + 'px');
+    adjustPan: function () {
+      var width = parseInt($('#carousel-item-0').width());
+      width = width * 0.75;
+      $('.iframe-container iframe').height(width + 'px');
     },
 
     addResizeListener: function () {

@@ -166,6 +166,39 @@ namespace Bovaljare.Data
               });
             }
           }
+        } else if (project == "Kilen") {
+          int id = 1;
+          houses = new List<House> {
+            new House { ID = id++, Sqm = "154 m²", Price = "-", Rent = "-", PropertyType = "Bostadsrätt", HouseNumber = "1", Status = StatusType.Available, Housetype="lgh", HouseFact = "Bofaktablad-Kilen_LGHA1.pdf" },
+            new House { ID = id++, Sqm = "154 m²", Price = "-", Rent = "-", PropertyType = "Bostadsrätt", HouseNumber = "2", Status = StatusType.Available, Housetype="lgh", HouseFact = "Bofaktablad-Kilen_LGHA1.pdf" },
+            new House { ID = id++, Sqm = "154 m²", Price = "-", Rent = "-", PropertyType = "Bostadsrätt", HouseNumber = "3", Status = StatusType.Available, Housetype="lgh", HouseFact = "Bofaktablad-Kilen_LGHA1.pdf" },
+            new House { ID = id++, Sqm = "154 m²", Price = "-", Rent = "-", PropertyType = "Bostadsrätt", HouseNumber = "4", Status = StatusType.Available, Housetype="lgh", HouseFact = "Bofaktablad-Kilen_LGHA1.pdf" },
+            new House { ID = id++, Sqm = "154 m²", Price = "-", Rent = "-", PropertyType = "Bostadsrätt", HouseNumber = "5", Status = StatusType.Available, Housetype="lgh", HouseFact = "Bofaktablad-Kilen_LGHA1.pdf" },
+            new House { ID = id++, Sqm = "154 m²", Price = "-", Rent = "-", PropertyType = "Bostadsrätt", HouseNumber = "6", Status = StatusType.Available, Housetype="lgh", HouseFact = "Bofaktablad-Kilen_LGHA1.pdf" },
+            new House { ID = id++, Sqm = "154 m²", Price = "-", Rent = "-", PropertyType = "Bostadsrätt", HouseNumber = "7", Status = StatusType.Available, Housetype="lgh", HouseFact = "Bofaktablad-Kilen_LGHA1.pdf" },
+            new House { ID = id++, Sqm = "154 m²", Price = "-", Rent = "-", PropertyType = "Bostadsrätt", HouseNumber = "8", Status = StatusType.Available, Housetype="lgh", HouseFact = "Bofaktablad-Kilen_LGHA1.pdf" },
+            new House { ID = id++, Sqm = "154 m²", Price = "-", Rent = "-", PropertyType = "Bostadsrätt", HouseNumber = "9", Status = StatusType.Available, Housetype="lgh", HouseFact = "Bofaktablad-Kilen_LGHA1.pdf" },
+            new House { ID = id++, Sqm = "154 m²", Price = "-", Rent = "-", PropertyType = "Bostadsrätt", HouseNumber = "10", Status = StatusType.Available, Housetype="lgh", HouseFact = "Bofaktablad-Kilen_LGHA1.pdf" },
+            new House { ID = id++, Sqm = "154 m²", Price = "-", Rent = "-", PropertyType = "Bostadsrätt", HouseNumber = "11", Status = StatusType.Available, Housetype="lgh", HouseFact = "Bofaktablad-Kilen_LGHA1.pdf" },
+            new House { ID = id++, Sqm = "154 m²", Price = "-", Rent = "-", PropertyType = "Bostadsrätt", HouseNumber = "12", Status = StatusType.Available, Housetype="lgh", HouseFact = "Bofaktablad-Kilen_LGHA1.pdf" },
+            new House { ID = id++, Sqm = "154 m²", Price = "-", Rent = "-", PropertyType = "Bostadsrätt", HouseNumber = "13", Status = StatusType.Available, Housetype="lgh", HouseFact = "Bofaktablad-Kilen_LGHA1.pdf" },
+            new House { ID = id++, Sqm = "154 m²", Price = "-", Rent = "-", PropertyType = "Bostadsrätt", HouseNumber = "14", Status = StatusType.Available, Housetype="lgh", HouseFact = "Bofaktablad-Kilen_LGHA1.pdf" },
+            new House { ID = id++, Sqm = "154 m²", Price = "-", Rent = "-", PropertyType = "Bostadsrätt", HouseNumber = "15", Status = StatusType.Available, Housetype="lgh", HouseFact = "Bofaktablad-Kilen_LGHA1.pdf" },
+            new House { ID = id++, Sqm = "154 m²", Price = "-", Rent = "-", PropertyType = "Bostadsrätt", HouseNumber = "16", Status = StatusType.Available, Housetype="lgh", HouseFact = "Bofaktablad-Kilen_LGHA1.pdf" },
+            new House { ID = id++, Sqm = "154 m²", Price = "-", Rent = "-", PropertyType = "Bostadsrätt", HouseNumber = "17", Status = StatusType.Available, Housetype="lgh", HouseFact = "Bofaktablad-Kilen_LGHA1.pdf" },
+            new House { ID = id++, Sqm = "154 m²", Price = "-", Rent = "-", PropertyType = "Bostadsrätt", HouseNumber = "18", Status = StatusType.Available, Housetype="lgh", HouseFact = "Bofaktablad-Kilen_LGHA1.pdf" },
+            new House { ID = id++, Sqm = "154 m²", Price = "-", Rent = "-", PropertyType = "Bostadsrätt", HouseNumber = "19", Status = StatusType.Available, Housetype="lgh", HouseFact = "Bofaktablad-Kilen_LGHA1.pdf" },
+            new House { ID = id++, Sqm = "154 m²", Price = "-", Rent = "-", PropertyType = "Bostadsrätt", HouseNumber = "20", Status = StatusType.Available, Housetype="lgh", HouseFact = "Bofaktablad-Kilen_LGHA1.pdf" },
+            new House { ID = id++, Sqm = "154 m²", Price = "-", Rent = "-", PropertyType = "Bostadsrätt", HouseNumber = "21", Status = StatusType.Available, Housetype="lgh", HouseFact = "Bofaktablad-Kilen_LGHA1.pdf" },
+            new House { ID = id++, Sqm = "154 m²", Price = "-", Rent = "-", PropertyType = "Bostadsrätt", HouseNumber = "22", Status = StatusType.Available, Housetype="lgh", HouseFact = "Bofaktablad-Kilen_LGHA1.pdf" },
+            new House { ID = id++, Sqm = "154 m²", Price = "-", Rent = "-", PropertyType = "Bostadsrätt", HouseNumber = "23", Status = StatusType.Available, Housetype="lgh", HouseFact = "Bofaktablad-Kilen_LGHA1.pdf" },
+            new House { ID = id++, Sqm = "154 m²", Price = "-", Rent = "-", PropertyType = "Bostadsrätt", HouseNumber = "24", Status = StatusType.Available, Housetype="lgh", HouseFact = "Bofaktablad-Kilen_LGHA1.pdf" },
+            new House { ID = id++, Sqm = "154 m²", Price = "-", Rent = "-", PropertyType = "Bostadsrätt", HouseNumber = "25", Status = StatusType.Available, Housetype="lgh", HouseFact = "Bofaktablad-Kilen_LGHA1.pdf" },
+            new House { ID = id++, Sqm = "154 m²", Price = "-", Rent = "-", PropertyType = "Bostadsrätt", HouseNumber = "26", Status = StatusType.Available, Housetype="lgh", HouseFact = "Bofaktablad-Kilen_LGHA1.pdf" },
+            new House { ID = id++, Sqm = "154 m²", Price = "-", Rent = "-", PropertyType = "Bostadsrätt", HouseNumber = "27", Status = StatusType.Available, Housetype="lgh", HouseFact = "Bofaktablad-Kilen_LGHA1.pdf" },
+            new House { ID = id++, Sqm = "154 m²", Price = "-", Rent = "-", PropertyType = "Bostadsrätt", HouseNumber = "28", Status = StatusType.Available, Housetype="lgh", HouseFact = "Bofaktablad-Kilen_LGHA1.pdf" },
+            new House { ID = id++, Sqm = "154 m²", Price = "-", Rent = "-", PropertyType = "Bostadsrätt", HouseNumber = "29", Status = StatusType.Available, Housetype="lgh", HouseFact = "Bofaktablad-Kilen_LGHA1.pdf" },
+          };
         }
         houseData[project] = houses;
       }

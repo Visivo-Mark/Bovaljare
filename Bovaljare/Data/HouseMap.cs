@@ -20,6 +20,9 @@ namespace Bovaljare.Data
       { "IMG/SolHav/exterior/solhav_PerspectiveMatch_oversikt.jpg", "view-1" },
       { "IMG/SolHav/exterior/SolHav_Oversikt_V3_BeautyElement.jpg", "view-2" },
       { "IMG/SolHav/exterior/solhav_PerspectiveMatch_oversikt2.jpg", "view-3" },
+
+      { "IMG/Kilen/exterior/DJI_0227.jpg", "view-1" },
+      { "IMG/Kilen/exterior/Oversikt_Bostadsväljare_3K.jpg", "view-2" },
     };
 
     public int ID { get; set; }

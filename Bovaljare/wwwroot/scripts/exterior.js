@@ -32,7 +32,7 @@
               style: { width: '99%' },
             });
 
-            self.mapIndex[name + view.Name] = ind++;
+            self.mapIndex[name + view.name] = ind++;
           }
         }
         else {
@@ -54,7 +54,7 @@
           });
         }
 
-        self.mapIndex[view.Name] = ind++;
+        self.mapIndex[view.name] = ind++;
       });
 
       this.isSunStudy = isSunStudy;
@@ -85,14 +85,14 @@
     },
 
     changeImage: function (view, sunStudy) {
-      if (isSunStudy)
+      if (this.isSunStudy)
         mapster_responsive.changeImage(this.mapIndex[sunStudy + view]);
       else
         mapster_responsive.changeImage(this.mapIndex[view]);
     },
 
     _loadIM: function (img, imgWidth) {
-      if (isSunStudy) {
+      if (this.isSunStudy) {
         var view = $(img).attr('view'),
           sunStudy = $(img).attr('sun-study'),
           imgWidth = imgWidth || $(img).css('width'),

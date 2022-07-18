@@ -161,7 +161,7 @@
   protected override void OnInitialized()
   {
     base.OnInitialized();
-    this.MapData = HouseMap.GetHouseMapData("SolHav");
+    this.MapData = HouseMap.GetHouseMapData(Project);
     base.StateHasChanged();
   }
 
@@ -256,7 +256,7 @@
       else
       {
         House house = null;
-        foreach (House h in House.GetHouseData("SolHav"))
+        foreach (House h in House.GetHouseData(Project))
         {
           if (h.HouseNumber == houseNumber)
           {

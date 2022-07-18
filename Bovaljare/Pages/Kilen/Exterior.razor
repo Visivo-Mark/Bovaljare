@@ -273,8 +273,8 @@
           msg = House.StatusDisplayName[house.Status];
         }
         else {
-          msg = String.Format("Adress:\t\t\t{0}\nBoyta:\t\t\t{1}\nPris:\t\t\t{2}{3}\nUpplåtelseform:\t{4}",
-                              house.Address,
+          msg = String.Format("Lgh nr.:\t\t\t{0}\nBoyta:\t\t\t{1}\nPris:\t\t\t{2}{3}\nUpplåtelseform:\t{4}",
+                              house.HouseNumber,
                               prettyStr(house.Sqm),
                               prettyStr(house.Price),
                               house.Rent != null && house.Rent != "" ? "\nHyra:\t\t\t" + house.Rent : "",

@@ -33,6 +33,9 @@ namespace Bovaljare.Data
     public static Dictionary<string, List<HouseMap>> GetHouseMapData(string project)
     {
       if (!data.ContainsKey(project))
+#if DEBUG
+        data.Add(project, null);
+#endif
       {
         /// Create new HouseMap data from each view-X.json file.
         Dictionary<string, List<HouseMap>> projectData = new Dictionary<string, List<HouseMap>>();
@@ -86,7 +89,11 @@ namespace Bovaljare.Data
           }
         }
 
+#if RELEASE
         data.Add(project, projectData);
+#elif DEBUG
+        data[project] = projectData;
+#endif
       }
 
       return data[project];

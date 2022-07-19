@@ -1,7 +1,7 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Text;
+using Newtonsoft.Json;
+using Bovaljare.Util;
 
 namespace Bovaljare.Data
 {
@@ -44,33 +44,25 @@ namespace Bovaljare.Data
 
         foreach (FileInfo filename in filenames) {
           string filePath = filename.FullName;
-          string json = "";
-          using (FileStream fs = File.OpenRead(filePath)) {
-            byte[] b = new byte[1024];
-            UTF8Encoding encoder = new UTF8Encoding(true);
-
-            while (fs.Read(b, 0, b.Length) > 0) {
-              json += encoder.GetString(b);
-              b = new byte[1024];
-            }
-          }
+          string json = FileHandler.GetContents(filePath);
           List<HouseMap> houseMaps = new List<HouseMap>();
-          JsonTextReader reader = new JsonTextReader(new StringReader(json));
 
-          while (reader.Read()) {
-            // For each read key-value pair, there is another that should follow:
-            // first is either "HouseNumber" or "View",
-            // second are the coordinates.
-            if (reader.Value != null) {
-              bool isHouseNumber = reader.Value.ToString() == "HouseNumber";
-              reader.Read();
-              string idValue = reader.Value.ToString();
-              reader.Read();
-              reader.Read();
-              houseMaps.Add(isHouseNumber
-                          ? new HouseMap { HouseNumber = idValue, IMCoords = reader.Value.ToString() }
-                          : new HouseMap { View = idValue, IMCoords = reader.Value.ToString() }
-              );
+          using (JsonTextReader reader = new JsonTextReader(new StringReader(json))) {
+            while (reader.Read()) {
+              // For each read key-value pair, there is another that should follow:
+              // first is either "HouseNumber" or "View",
+              // second are the coordinates.
+              if (reader.Value != null) {
+                bool isHouseNumber = reader.Value.ToString() == "HouseNumber";
+                reader.Read();
+                string idValue = reader.Value.ToString();
+                reader.Read(); // Skip key "coords"
+                reader.Read();
+                houseMaps.Add(isHouseNumber
+                            ? new HouseMap { HouseNumber = idValue, IMCoords = reader.Value.ToString() }
+                            : new HouseMap { View = idValue, IMCoords = reader.Value.ToString() }
+                );
+              }
             }
           }
           projectData.Add(Path.GetFileNameWithoutExtension(filePath), houseMaps);

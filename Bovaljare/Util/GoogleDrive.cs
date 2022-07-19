@@ -6,8 +6,9 @@ using Google.Apis.Drive.v3;
 using Google.Apis.Services;
 using Google.Apis.Download;
 using Google.Apis.Util.Store;
+using Newtonsoft.Json;
 
-namespace Bovaljare.Data
+namespace Bovaljare.Util
 {
   public class GoogleDrive
   {
@@ -16,7 +17,7 @@ namespace Bovaljare.Data
     static string[] Scopes = { DriveService.Scope.DriveReadonly, DriveService.Scope.Drive, DriveService.Scope.DriveFile };
     static string ApplicationName = "Bostadsvaljare";
 
-    public static MemoryStream GetFileStream(MemoryStream memStream) {
+    public static MemoryStream GetFileStream(MemoryStream memStream, string project) {
       try
       {
         UserCredential credential;
@@ -43,8 +44,18 @@ namespace Bovaljare.Data
           ApplicationName = ApplicationName
         });
 
-        // File id for SolHav.xlsx.
-        string realFileId = "1K7MpS5PL15a4RzSw7rlIeE8_wzmJFZlR";
+        // File id for project.
+        string realFileId = "";
+        string contents = FileHandler.GetContents(@"wwwroot\data\projects\" + project + ".json");
+        using (JsonTextReader reader = new JsonTextReader(new StringReader(contents))) {
+          while (reader.Read()) {
+            if (reader.Value != null  &&  reader.Value as string == "Drive_file-id") {
+              reader.Read();
+              realFileId = reader.Value as string;
+              break;
+            }
+          }
+        }
         FilesResource.GetRequest getRequest = service.Files.Get(realFileId);
 
         Google.Apis.Drive.v3.Data.File file = getRequest.Execute();

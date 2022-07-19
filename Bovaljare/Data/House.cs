@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using ClosedXML.Excel;
+using Bovaljare.Util;
 
 namespace Bovaljare.Data
 {
@@ -143,9 +144,9 @@ namespace Bovaljare.Data
         } else if (project == "SolHav") {
           using (var memStream = new MemoryStream()) {
 
-            GoogleDrive.GetFileStream(memStream);
+            GoogleDrive.GetFileStream(memStream, project);
             var excel = new XLWorkbook(memStream);
-            var sheet = excel.Worksheet("Projekt1");
+            var sheet = excel.Worksheet(1);
             int totalHouses = sheet.LastRowUsed().RowNumber() - 1;
 
             houses = new List<House>(totalHouses);

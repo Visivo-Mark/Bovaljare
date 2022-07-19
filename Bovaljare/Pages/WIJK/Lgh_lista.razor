@@ -417,7 +417,7 @@
           await JSRuntime.InvokeVoidAsync("util.disableClickMenu");
           await JSRuntime.InvokeVoidAsync("util.hideTooltip");
         } catch (TaskCanceledException _) {}
-        navManager.NavigateTo("/" + Project + "/interior/" + houseId);
+        navManager.NavigateTo("/" + Project.ToLower() + "/interior/" + houseId);
       }
     }
   }
@@ -433,7 +433,7 @@
   //    else
   //    {
   //      HideTooltip();
-  //      navManager.NavigateTo("/" + Project + "/interior/" + args.Data.ID);
+  //      navManager.NavigateTo("/" + Project.ToLower() + "/interior/" + args.Data.ID);
   //    }
   //  }
   //}
@@ -447,7 +447,7 @@
       if (mobile && MobileSelection == args.Data.ID)
       {
         HideTooltip();
-        navManager.NavigateTo("/" + Project + "/interior/" + args.Data.ID);
+        navManager.NavigateTo("/" + Project.ToLower() + "/interior/" + args.Data.ID);
       }
     }
   }

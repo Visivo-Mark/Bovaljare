@@ -407,7 +407,7 @@
             await JSRuntime.InvokeVoidAsync("util.disableClickMenu");
             await JSRuntime.InvokeVoidAsync("util.hideTooltip");
           } catch (TaskCanceledException _) {}
-          navManager.NavigateTo("/" + Project + "/interior/" + houseId);
+          navManager.NavigateTo("/" + Project.ToLower() + "/interior/" + houseId);
         }
       }
     }

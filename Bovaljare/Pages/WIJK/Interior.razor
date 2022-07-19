@@ -40,7 +40,8 @@
             <ol class="carousel-indicators">
               @for (int i = 0; i < HouseData.Images.Count; i++)
               {
-                <li data-target="#gallery-carousel" data-slide-to="@i" class="@(i == 0 ? "active" : "")"></li>
+                <button type="button" data-bs-target="#gallery-carousel" data-bs-slide-to="@i" class="@(i == 0 ? "active" : "")"
+                        aria-current="@(i == 0)" aria-label="Slide @(i+1)"></button>
               }
             </ol>
             <div class="carousel-inner">

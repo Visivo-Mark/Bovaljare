@@ -349,5 +349,6 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 
-# Ignore token files
+# Ignore files containing secrets
 token.json/
+Bovaljare/wwwroot/data/dbx.json

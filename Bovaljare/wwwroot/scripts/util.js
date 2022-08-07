@@ -48,6 +48,10 @@
       setTimeout(() => { $('#topnav').removeClass('loading'); }, 2000);
     },
 
+    log: function (text) {
+      console.log(text);
+    },
+
     disableClickGridResize: function () {
       $('#GridResize').addClass('loading');
     },
@@ -224,6 +228,14 @@
 
     enableScroll: function () {
       $('body').css({ overflow: 'visible' });
+    },
+
+    disable: function (id) {
+      $('#' + id).attr('disabled', 'disabled');
+    },
+
+    enable: function (id) {
+      $('#' + id).removeAttr('disabled');
     },
   };
 })();

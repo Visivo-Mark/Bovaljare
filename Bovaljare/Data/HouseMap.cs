@@ -1,5 +1,10 @@
-﻿using System.Collections.Generic;
+﻿#if DEBUG
+/// Useful when wanting to touch up on image-maps without having to restart app.
+#define ALWAYS_GET_DATA
+#endif
+using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Bovaljare.Util;
 
@@ -7,9 +12,8 @@ namespace Bovaljare.Data
 {
   public class HouseMap
   {
-    private static Dictionary<string, Dictionary<string, List<HouseMap>>> data =
-      new Dictionary<string, Dictionary<string, List<HouseMap>>>();
-    private static readonly Dictionary<string, string> imageToVariant = new Dictionary<string, string> {
+    private static readonly Dictionary<string, Dictionary<string, List<HouseMap>>> data = new();
+    private static readonly Dictionary<string, string> imageToVariant = new() {
       { "IMG/WIJK/exterior/OversiktStora_medium.jpg", "view-1" },
       { "IMG/WIJK/exterior/Oversikt1-5_medium.jpg", "view-2" },
       { "IMG/WIJK/exterior/Oversikt_V2_medium.jpg", "view-3" },
@@ -33,21 +37,21 @@ namespace Bovaljare.Data
     public static Dictionary<string, List<HouseMap>> GetHouseMapData(string project)
     {
       if (!data.ContainsKey(project))
-#if DEBUG
+#if ALWAYS_GET_DATA
         data.Add(project, null);
 #endif
       {
         /// Create new HouseMap data from each view-X.json file.
-        Dictionary<string, List<HouseMap>> projectData = new Dictionary<string, List<HouseMap>>();
-        DirectoryInfo dir = new DirectoryInfo(@"wwwroot\data\views\" + project + @"\");
+        Dictionary<string, List<HouseMap>> projectData = new();
+        var dir = new DirectoryInfo(@"wwwroot\data\views\" + project + @"\");
         FileInfo[] filenames = dir.GetFiles("*.json");
 
         foreach (FileInfo filename in filenames) {
           string filePath = filename.FullName;
           string json = FileHandler.GetContents(filePath);
-          List<HouseMap> houseMaps = new List<HouseMap>();
+          List<HouseMap> houseMaps = new();
 
-          using (JsonTextReader reader = new JsonTextReader(new StringReader(json))) {
+          using (var reader = new JsonTextReader(new StringReader(json))) {
             while (reader.Read()) {
               // For each read key-value pair, there is another that should follow:
               // first is either "HouseNumber" or "View",
@@ -81,10 +85,10 @@ namespace Bovaljare.Data
           }
         }
 
-#if RELEASE
-        data.Add(project, projectData);
-#elif DEBUG
+#if ALWAYS_GET_DATA
         data[project] = projectData;
+#else
+        data.Add(project, projectData);
 #endif
       }
 

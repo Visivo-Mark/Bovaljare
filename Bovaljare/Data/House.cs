@@ -89,24 +89,41 @@ namespace Bovaljare.Data
       return copy;
     }
 
-    public string DisplaySqm()
+    public string DisplaySqm(string def = null)
     {
-      return Sqm != "" ? Sqm + " m²" : "";
+      if (!string.IsNullOrEmpty(Sqm))
+        return Sqm + " m²";
+      else
+        return def != null ? def : "";
     }
 
-    public string DisplayLandArea()
+    public string DisplayLandArea(string def = null)
     {
-      return LandArea != "" ? LandArea + " m²" : "";
+      if (!string.IsNullOrEmpty(LandArea))
+        return LandArea + " m²";
+      else
+        return def != null ? def : "";
     }
 
-    public string DisplayPrice()
+    public string DisplayPrice(string def = null)
     {
-      return string.Format("{0:# ### ### ###} kr", int.Parse(Price));
+      if (!string.IsNullOrEmpty(Price))
+        return string.Format("{0:# ### ### ###} kr", int.Parse(Price));
+      else
+        return def != null ? def : "";
     }
 
-    public string DisplayRent()
+    public string DisplayRent(string def = null)
     {
-      return string.Format("{0:# ### ### ###} kr/mån", int.Parse(Rent));
+      if (!string.IsNullOrEmpty(Rent))
+        return string.Format("{0:# ### ### ###} kr/mån", int.Parse(Rent));
+      else
+        return def != null ? def : "";
+    }
+
+    public bool DisplayInfo()
+    {
+      return Status == StatusType.Available || Status == StatusType.Booked;
     }
 
 #if RUN_DBX

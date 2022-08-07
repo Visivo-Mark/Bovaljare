@@ -137,12 +137,27 @@
           }
         </div>
       </div>
+
+      @*<div style="position:fixed; bottom:0px; left:0px; color:white;">
+        <a type="button" @onclick="Test">test</a>
+      </div>*@
     </div>
   </ContentTemplate>
 </SpinLoader>
 
 
 @code {
+  private async Task Test(Microsoft.AspNetCore.Components.Web.MouseEventArgs args) {
+    await JSRuntime.InvokeVoidAsync("util.log", "testing some stuff...");
+    try {
+      using (var excel = await new Util.Dbx(Project).DownloadExcelFile()) {
+        await JSRuntime.InvokeVoidAsync("util.log", excel.Worksheet(1).Cell(2, 2).GetFormattedString());
+      }
+    } catch (Exception e) {
+      await JSRuntime.InvokeVoidAsync("util.log", "Error: " + e.Message);
+    }
+  }
+
   private static string Project { get; } = "WIJK";
   private static bool IsSunStudy { get; } = true;
 
@@ -201,6 +216,7 @@
     }
   );
 
+  public List<House> HouseData { get; set; }
   public Dictionary<string, List<HouseMap>> MapData { get; set; }
   /** This can be set to a diffrent inte depending on wich starting "overview is needed" 0 is the first class object in the views list. */
   private string CurrentView { get; set; } = "view-1";
@@ -219,17 +235,13 @@
   private string MouseOverHouse { get; set; } = ""; // displays the housenumber depending on what house is currently beeing hoovred. 
 
 
-  protected override void OnInitialized()
-  {
-    base.OnInitialized();
-    this.MapData = HouseMap.GetHouseMapData(Project);
-    base.StateHasChanged();
-  }
-
   protected override async Task OnAfterRenderAsync(bool firstRender)
   {
     if (firstRender)
     {
+      this.HouseData = House.GetHouseData(Project);
+      this.MapData = HouseMap.GetHouseMapData(Project);
+
       // initializes the js needed for the pages and disposes the ones that are not used. 
 
       await JSRuntime.InvokeVoidAsync("lgh_lista.dispose");
@@ -316,18 +328,10 @@
       }
       else
       {
-        House house = null;
-        foreach (House h in House.GetHouseData(Project))
-        {
-          if (h.HouseNumber == houseNumber)
-          {
-            house = h;
-            break;
-          }
-        }
+        House house = HouseData.Find(h => h.HouseNumber == houseNumber);
 
         var prettyStr = delegate(string str) {
-          return str != null && str != "" ? str : "-";
+          return !string.IsNullOrEmpty(str) ? str : "-";
         };
 
         if (house.Status != House.StatusType.Available) {
@@ -336,8 +340,8 @@
         else {
           msg = String.Format("Hus nr.:\t\t\t{0}\nBoyta:\t\t\t{1}\nPris:\t\t\t{2}{3}\nUpplåtelseform:\t{4}",
                               house.HouseNumber,
-                              prettyStr(house.Sqm),
-                              prettyStr(house.Price),
+                              house.DisplaySqm("-"),
+                              house.DisplayPrice("-"),
                               house.Rent != null && house.Rent != "" ? "\nHyra:\t\t\t" + house.Rent : "",
                               prettyStr(house.PropertyType));
         }

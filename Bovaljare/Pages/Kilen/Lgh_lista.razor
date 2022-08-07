@@ -58,7 +58,7 @@
             <th class="listitemheader">Lgh nr.<i class="fas fa-sort"></i></th>
             <th class="listitemheader">Boyta<i class="fas fa-sort"></i></th>
             <th class="listitemheader">Pris<i class="fas fa-sort"></i></th>
-            <th class="listitemheader">Årshyra<i class="fas fa-sort"></i></th>
+            <th class="listitemheader">Hyra<i class="fas fa-sort"></i></th>
             <th class="listitemheader hideonmobile">Tomtarea<i class="fas fa-sort"></i></th>
             <th class="listitemheader">Status<i class="fas fa-sort"></i></th>
           </tr>
@@ -75,9 +75,9 @@
                 @onmouseenter="() => HighlightInImageMap(houseNr)"
                 @onclick="() => HouselistClick(id, houseStatus)">
               <td class="listitemcell">@HouseData[i].HouseNumber</td>
-              <td class="listitemcell">@HouseData[i].Sqm</td>
-              <td class="listitemcell">@HouseData[i].Price</td>
-              <td class="listitemcell">@HouseData[i].Rent</td>
+              <td class="listitemcell">@(HouseData[i].DisplayInfo() ? HouseData[i].DisplaySqm("-") : "-")</td>
+              <td class="listitemcell">@(HouseData[i].DisplayInfo() ? HouseData[i].DisplayPrice("-") : "-")</td>
+              <td class="listitemcell">@HouseData[i].DisplayRent("-")</td>
               <td class="listitemcell hideonmobile">@HouseData[i].LandArea</td>
               <td class="listitemcell">
                 @if (HouseData[i].Status == House.StatusType.Available)
@@ -275,7 +275,7 @@
       int rowInd = await JSRuntime.InvokeAsync<int>("util.getSFGridRowIndex");
       if (rowInd >= 0 && this.HighlightedRow != rowInd)
       {
-        var records = await this.HouseList.GetCurrentViewRecords();
+        var records = await this.HouseList.GetCurrentViewRecordsAsync();
         HighlightInImageMap(records[rowInd].HouseNumber);
         this.HighlightedRow = rowInd;
       }
@@ -290,27 +290,27 @@
 
   private async void HighlightInList(string houseNumber)
   {
-    if (await this.HouseList.GetCurrentViewRecords() == null)
+    if (await this.HouseList.GetCurrentViewRecordsAsync() == null)
       return;
 
-    await this.HouseList.GoToPage(1);
+    await this.HouseList.GoToPageAsync(1);
     bool continuePaging = true;
 
     for (int i = 1; i <= this.HouseList.PageSettings.PageCount; i += 1)
     {
-      List<House> page = await this.HouseList.GetCurrentViewRecords();
+      List<House> page = await this.HouseList.GetCurrentViewRecordsAsync();
       for (int j = 0; j < page.Count; j += 1)
       {
         if (page[j].HouseNumber == houseNumber)
         {
-          await this.HouseList.SelectRow(j);
+          await this.HouseList.SelectRowAsync(j);
           continuePaging = false;
           IsHighlighting = true;
           break;
         }
       }
       if (continuePaging)
-        await this.HouseList.GoToPage(i + 1);
+        await this.HouseList.GoToPageAsync(i + 1);
       else
         break;
     }
@@ -318,7 +318,7 @@
 
   private async void RemoveListHighlight()
   {
-    await this.HouseList.ClearRowSelection();
+    await this.HouseList.ClearRowSelectionAsync();
   }
 
   private async void HighlightInImageMap(string houseNumber)
@@ -346,15 +346,11 @@
     string msg;
     House house = HouseData.Find(h => h.HouseNumber == houseNumber);
 
-    var prettyStr = delegate(string str) {
-      return str != null && str != "" ? str : "-";
-    };
-
     if (house.Status != House.StatusType.Available)
       msg = House.StatusDisplayName[house.Status];
     else
       msg = String.Format("Lgh nr.:\t{0}\nBoyta:\t{1}\nPris:\t{2}",
-                          house.HouseNumber, prettyStr(house.Sqm), prettyStr(house.Price));
+                          house.HouseNumber, house.DisplaySqm("-"), house.DisplayPrice("-"));
 
     try {
       await JSRuntime.InvokeVoidAsync(
@@ -492,7 +488,7 @@
     transition-property: filter;
     transition-duration: 0.25s;
     -webkit-tap-highlight-color: transparent;
-    background-color: grey;
+    background-color: lightgray;
   }
 
   .listitemcell {

@@ -141,6 +141,7 @@
     }
   );
 
+  public List<House> HouseData { get; set; }
   public Dictionary<string, List<HouseMap>> MapData { get; set; }
   private string CurrentView { get; set; } = "view-1"; //this can be set to a diffrent inte depending on wich starting "overview is needed" 0 is the first class object in the views list.  
   /* SUNSTUDY
@@ -158,17 +159,13 @@
   private string MouseOverHouse { get; set; } = ""; // displays the housenumber depending on what house is currently beeing hoovred. 
 
 
-  protected override void OnInitialized()
-  {
-    base.OnInitialized();
-    this.MapData = HouseMap.GetHouseMapData(Project);
-    base.StateHasChanged();
-  }
-
   protected override async Task OnAfterRenderAsync(bool firstRender)
   {
     if (firstRender)
     {
+      this.HouseData = House.GetHouseData(Project);
+      this.MapData = HouseMap.GetHouseMapData(Project);
+
       // initializes the js needed for the pages and disposes the ones that are not used. 
 
       await JSRuntime.InvokeVoidAsync("lgh_lista.dispose");
@@ -255,18 +252,10 @@
       }
       else
       {
-        House house = null;
-        foreach (House h in House.GetHouseData(Project))
-        {
-          if (h.HouseNumber == houseNumber)
-          {
-            house = h;
-            break;
-          }
-        }
+        House house = HouseData.Find(h => h.HouseNumber == houseNumber);
 
         var prettyStr = delegate(string str) {
-          return str != null && str != "" ? str : "-";
+          return !string.IsNullOrEmpty(str) ? str : "-";
         };
 
         if (house.Status != House.StatusType.Available) {
@@ -275,8 +264,8 @@
         else {
           msg = String.Format("Lgh nr.:\t\t\t{0}\nBoyta:\t\t\t{1}\nPris:\t\t\t{2}{3}\nUpplåtelseform:\t{4}",
                               house.HouseNumber,
-                              prettyStr(house.Sqm),
-                              prettyStr(house.Price),
+                              house.DisplaySqm("-"),
+                              house.DisplayPrice("-"),
                               house.Rent != null && house.Rent != "" ? "\nHyra:\t\t\t" + house.Rent : "",
                               prettyStr(house.PropertyType));
         }

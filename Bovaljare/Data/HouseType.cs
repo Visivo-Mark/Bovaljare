@@ -13,8 +13,7 @@ namespace Bovaljare.Data
 
   public class HouseType
   {
-    private static Dictionary<string, Dictionary<string, HouseType>> data =
-      new Dictionary<string, Dictionary<string, HouseType>>();
+    private static readonly Dictionary<string, Dictionary<string, HouseType>> data = new();
 
     public class Image
     {
@@ -484,6 +483,7 @@ namespace Bovaljare.Data
               Images = new List<Image> {
                 new Image { Source="IMG/SolHav/interior/220711_Kitchen_3K.jpg", Type=ImageType.Image },
                 new Image { Source="IMG/SolHav/interior/220630_SolHav_KitchenZoomed_3K_JPG.jpg", Type=ImageType.Image },
+                new Image { Source="IMG/SolHav/interior/Hus-120_Sovrum_3K.jpg", Type=ImageType.Image },
                 new Image { Source="IMG/SolHav/exterior/220607_SolHav_Gatubild_BeautyElement.jpg", Type=ImageType.Image },
               },
               Comment = "Nån lämplig kommentar..."
@@ -497,6 +497,7 @@ namespace Bovaljare.Data
               Images = new List<Image> {
                 new Image { Source="IMG/SolHav/interior/220711_Kitchen_3K.jpg", Type=ImageType.Image },
                 new Image { Source="IMG/SolHav/interior/220630_SolHav_KitchenZoomed_3K_JPG.jpg", Type=ImageType.Image },
+                new Image { Source="IMG/SolHav/interior/Hus-120_Sovrum_3K.jpg", Type=ImageType.Image },
                 new Image { Source="IMG/SolHav/exterior/220607_SolHav_Gatubild_BeautyElement.jpg", Type=ImageType.Image },
               },
               Comment = "Nån lämplig kommentar..."
@@ -510,6 +511,7 @@ namespace Bovaljare.Data
               Images = new List<Image> {
                 new Image { Source="IMG/SolHav/interior/220711_Kitchen_3K.jpg", Type=ImageType.Image },
                 new Image { Source="IMG/SolHav/interior/220630_SolHav_KitchenZoomed_3K_JPG.jpg", Type=ImageType.Image },
+                new Image { Source="IMG/SolHav/interior/Hus-120_Sovrum_3K.jpg", Type=ImageType.Image },
                 new Image { Source="IMG/SolHav/exterior/220607_SolHav_Gatubild_BeautyElement.jpg", Type=ImageType.Image },
               },
               Comment = "Nån lämplig kommentar..."
@@ -523,6 +525,7 @@ namespace Bovaljare.Data
               Images = new List<Image> {
                 new Image { Source="IMG/SolHav/interior/220711_Kitchen_3K.jpg", Type=ImageType.Image },
                 new Image { Source="IMG/SolHav/interior/220630_SolHav_KitchenZoomed_3K_JPG.jpg", Type=ImageType.Image },
+                new Image { Source="IMG/SolHav/interior/Hus-120_Sovrum_3K.jpg", Type=ImageType.Image },
                 new Image { Source="IMG/SolHav/exterior/220607_SolHav_Gatubild_BeautyElement.jpg", Type=ImageType.Image },
               },
               Comment = "Nån lämplig kommentar..."
@@ -544,10 +547,10 @@ namespace Bovaljare.Data
                 }},
               },
               Images = new List<Image> {
-                new Image { Source="IMG/Kilen/interior/220712_Kitchen_3K.jpg", Type=ImageType.Image },
-                new Image { Source="IMG/Kilen/interior/Kilen_Sovrum.jpg", Type=ImageType.Image },
                 new Image { Source="IMG/Kilen/interior/Kilen_Vardagsrum-1.jpg", Type=ImageType.Image },
                 new Image { Source="IMG/Kilen/interior/Kilen_Vardagsrum-3.jpg", Type=ImageType.Image },
+                new Image { Source="IMG/Kilen/interior/220712_Kitchen_3K.jpg", Type=ImageType.Image },
+                new Image { Source="IMG/Kilen/interior/Kilen_Sovrum.jpg", Type=ImageType.Image },
                 new Image { Source="IMG/Kilen/interior/Kilen_WC.jpg", Type=ImageType.Image },
                 new Image { Source="IMG/Kilen/exterior/Kilen_Moodbild-Balkong_220629_beauty element.jpg", Type=ImageType.Image },
                 new Image { Source="IMG/Kilen/exterior/Kilen_Innergard.jpg", Type=ImageType.Image },

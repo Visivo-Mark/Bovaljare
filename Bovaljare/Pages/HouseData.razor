@@ -1,0 +1,183 @@
+﻿@page "/{ProjectUri}/housedata"
+
+@using System.Data.OleDb
+@using ClosedXML.Excel
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Buttons
+@using Data
+
+@inject IJSRuntime JSRuntime
+
+<link href="css/table.css" rel="stylesheet" />
+
+<div style="display: flex;">
+  <h3 style="flex: content;">@Project</h3>
+  <SfButton Content="Spara ändringar" id="save-btn" CssClass="e-primary" @onclick="Save"></SfButton>
+</div>
+
+<div class="table-container">
+  <table id="excel-table">
+    <thead>
+      <tr>
+        <th class="list-header">Hus nr.</th>
+        <th class="list-header">Adress</th>
+        <th class="list-header">Boyta (m²)</th>
+        <th class="list-header">Landarea (m²)</th>
+        <th class="list-header">Pris (kr)</th>
+        <th class="list-header">Hyra (kr/mån)</th>
+        <th class="list-header">Upplåtelseform</th>
+        <th class="list-header">Status</th>
+        @if (ShowExtendedInfo) {
+          <th class="list-header">Hustyp</th>
+          <th class="list-header">Faktablad</th>
+        }
+      </tr>
+    </thead>
+    <tbody>
+      @for (int i = 0; i < Houses.Count; i++) {
+        int _i = i;
+        <tr class="list-row">
+          <td class="list-item">@Houses[_i].HouseNumber</td>
+          <td class="list-item"><input type="text" @bind-value="Houses[_i].Address" @bind-value:event="oninput" /></td>
+          <td class="list-item"><input type="text" @bind-value="Houses[_i].Sqm" @bind-value:event="oninput" /></td>
+          <td class="list-item"><input type="text" @bind-value="Houses[_i].LandArea" @bind-value:event="oninput" /></td>
+          <td class="list-item"><input type="text" @bind-value="Houses[_i].Price" @bind-value:event="oninput" /></td>
+          <td class="list-item"><input type="text" @bind-value="Houses[_i].Rent" @bind-value:event="oninput" /></td>
+          <td class="list-item"><input type="text" @bind-value="Houses[_i].PropertyType" @bind-value:event="oninput" /></td>
+          <td class="list-item">
+            <SfDropDownList TItem="Status" TValue="House.StatusType" DataSource="Statuses"
+                            @bind-Value="Houses[_i].Status">
+              <DropDownListFieldSettings Value="Value" Text="DisplayName"></DropDownListFieldSettings>
+            </SfDropDownList>
+          </td>
+          @if (ShowExtendedInfo) {
+            <td class="list-item"><input type="text" @bind-value="Houses[_i].Housetype" @bind-value:event="oninput" /></td>
+            <td class="list-item"><input id="house-fact-item" type="text" @bind-value="Houses[_i].HouseFact" @bind-value:event="oninput" /></td>
+          }
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
+
+
+@code {
+  public class Status {
+    public House.StatusType Value { get; set; }
+    public string DisplayName { get; set; }
+  }
+
+  [Parameter]
+  public string ProjectUri { get; set; }
+
+  private string Project { get; set; }
+  private List<House> Houses { get; set; }
+  private IXLWorksheet Worksheet { get; set; }
+  private bool ShowExtendedInfo { get; set; } = false;
+  private List<Status> Statuses { get; set; } = new(House.StatusDisplayName.Count);
+
+
+  protected override void OnInitialized()
+  {
+    base.OnInitialized();
+    Project = ProjectUri; //TODO: get actual project name (e.g. solhav -> SolHav, kilen -> Kilen)
+    var excel = new XLWorkbook(@"wwwroot\data\houses\" + Project + ".xlsx");
+    Worksheet = excel.Worksheet(1);
+    Houses = House.GetHouseDataCopy(Project);
+    foreach (var kvp in House.StatusDisplayName) {
+      Statuses.Add(new Status { Value = kvp.Key, DisplayName = kvp.Value });
+    }
+#if DEBUG
+    ShowExtendedInfo = true;
+#endif
+    base.StateHasChanged();
+  }
+
+  protected override async Task OnAfterRenderAsync(bool firstRender)
+  {
+    if (firstRender) {
+      await JSRuntime.InvokeVoidAsync("house_data.init");
+      await JSRuntime.InvokeVoidAsync("dropdowns_fix.init");
+    }
+  }
+
+  private async Task Save(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
+  {
+    await JSRuntime.InvokeVoidAsync("util.disable", "save-btn");
+
+    string connectionString = string.Format(@"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=wwwroot\data\houses\{0}.xlsx;Extended Properties='Excel 12.0 Xml;HDR=YES'",
+                                             Project);
+    OleDbConnection objConn = new OleDbConnection(connectionString);
+    objConn.Open();
+    foreach (House house in Houses) {
+      string query = string.Format("UPDATE [{0}$] SET Adress = @address, Boyta = @sqm, Markyta = @landarea, Pris = @price, Hyra = @rent, Upplåtelseform = @proptype, Status = @status, Hustyp = @housetype, Faktablad = @housefact WHERE Husnummer = @housenr",
+                                    Worksheet.Name);
+      OleDbCommand objCmdSelect = new OleDbCommand(query, objConn);
+      objCmdSelect.Parameters.AddRange(new OleDbParameter[] {
+        new OleDbParameter("@address", house.Address),
+        new OleDbParameter("@sqm", house.Sqm),
+        new OleDbParameter("@landarea", house.LandArea),
+        new OleDbParameter("@price", house.Price),
+        new OleDbParameter("@rent", house.Rent),
+        new OleDbParameter("@proptype", house.PropertyType),
+        new OleDbParameter("@status", House.StatusDisplayName[house.Status]),
+        new OleDbParameter("@housetype", house.Housetype),
+        new OleDbParameter("@housefact", house.HouseFact),
+        new OleDbParameter("@housenr", house.HouseNumber),
+      });
+
+      objCmdSelect.ExecuteNonQuery();
+    }
+    objConn.Close();
+
+    await JSRuntime.InvokeVoidAsync("util.enable", "save-btn");
+  }
+}
+
+<style>
+  input[type="text"] {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    width: 5vw;
+    cursor: default;
+  }
+
+    input[type="text"]:hover {
+      cursor: pointer;
+    }
+
+  .list-row:hover {
+    background-color: lightgray;
+  }
+
+  .list-item {
+    padding: 2px 5px;
+  }
+
+  #house-fact-item {
+    width: 15vw;
+  }
+
+  .e-popup {
+    z-index: 1000000000;
+  }
+
+  .e-btn.e-primary {
+    color: #404040;
+    background-color: #69c0c0;
+  }
+
+    .e-btn.e-primary:hover {
+      color: #404040;
+      background-color: #44c0c0;
+    }
+
+    .e-btn.e-primary:focus {
+      color: #404040;
+      background-color: #69c0c0;
+    }
+</style>

@@ -68,23 +68,28 @@
   <ItemGroup>
     <None Remove="material.css" />
     <None Remove="material.scss" />
+    <None Remove="redirect.html" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="Data\HouseMap.cs" />
+    <Content Include="redirect.html" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="BlazorPro.BlazorSize" Version="6.1.2" />
     <PackageReference Include="BlazorPro.Spinkit" Version="1.2.0" />
-    <PackageReference Include="BlazorStrap" Version="5.0.105.4262022" />
+    <PackageReference Include="BlazorStrap" Version="5.0.106" />
     <PackageReference Include="BlazorStyled" Version="3.1.0" />
     <PackageReference Include="ClosedXML" Version="0.96.0" />
-    <PackageReference Include="Google.Apis.Drive.v3" Version="1.57.0.2684" />
+    <PackageReference Include="Dropbox.Api" Version="6.32.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.7" />
+    <PackageReference Include="Microsoft.OneDriveSDK" Version="2.0.7" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.7" />
-    <PackageReference Include="Syncfusion.Blazor" Version="20.2.0.38" />
-    <PackageReference Include="Syncfusion.Licensing" Version="20.2.0.38" />
+    <PackageReference Include="Syncfusion.Blazor" Version="20.2.0.40" />
+    <PackageReference Include="Syncfusion.Licensing" Version="20.2.0.40" />
+    <PackageReference Include="System.Data.OleDb" Version="6.0.0" />
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
   </ItemGroup>
 
   <ItemGroup>
@@ -103,7 +108,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\data\projects\" />
     <Folder Include="wwwroot\data\views\Kilen\" />
     <Folder Include="wwwroot\IMG\Kilen\" />
     <Folder Include="wwwroot\IMG\SolHav\exterior\" />
@@ -112,6 +116,21 @@
     <Folder Include="wwwroot\IMG\WIJK\exterior\" />
     <Folder Include="wwwroot\IMG\WIJK\interior\" />
     <Folder Include="wwwroot\Pdf\WIJK\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Util\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Util\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>

@@ -40,13 +40,12 @@ namespace Bovaljare
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
-      Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MjQ5ODE0QDMxMzgyZTMxMmUzMFkyS0hyL2JIck13S3dCT3ZmaHFjMThuZ0dkUy9pNVZxejB0TGk5NGswcVU9");
-      if (env.IsDevelopment())
-      {
+      //Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MjQ5ODE0QDMxMzgyZTMxMmUzMFkyS0hyL2JIck13S3dCT3ZmaHFjMThuZ0dkUy9pNVZxejB0TGk5NGswcVU9");
+      Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("NjkxNzM3QDMyMzAyZTMyMmUzME5LVUthdUJzVis5YzVKRytFMFBjWkFOL1JCRDZUS0lkUHJwdlBPNi9KeDg9");
+      if (env.IsDevelopment()) {
         app.UseDeveloperExceptionPage();
       }
-      else
-      {
+      else {
         app.UseExceptionHandler("/Error");
         // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
         app.UseHsts();

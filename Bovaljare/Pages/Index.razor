@@ -22,19 +22,27 @@
     { ProjectType.Kilen, "Kilen" },
   };
 
-  /** project
-   * <summary>
-   * Navigate immediately to project, useful to quick debugging.
+  /**<summary>
+   * Navigate immediately to project; useful for quick debugging.
    * </summary>
    */
-  private ProjectType project = ProjectType.SolHav;
+#if RELEASE
+  private ProjectType Project = ProjectType.WIJK;
+#else
+  private ProjectType Project = ProjectType.WIJK;
+#endif
+  /**<summary>
+   * Navigate immediately to specified page; useful for quick debugging.
+   * </summary>
+   */
+  private string Page = "";
 
 
   protected override async Task OnInitializedAsync() {
-#if RELEASE
-    navManager.NavigateTo("/" + ProjectName[ProjectType.WIJK].ToLower());
-#else
-    navManager.NavigateTo("/" + ProjectName[project].ToLower());
-#endif
+    await base.OnInitializedAsync();
+    string navString = "/" + ProjectName[Project].ToLower();
+    if (!string.IsNullOrEmpty(Page))
+      navString += "/" + Page;
+    navManager.NavigateTo(navString);
   }
 }

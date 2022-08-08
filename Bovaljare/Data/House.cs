@@ -1,10 +1,9 @@
-﻿#if DEBUG
+﻿#if DEBUG || RELEASE
 #define RUN_DBX
 #define FROM_XL
 #endif
 #undef RUN_DBX
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using ClosedXML.Excel;
 using Bovaljare.Util;
 

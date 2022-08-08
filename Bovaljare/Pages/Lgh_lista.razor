@@ -49,16 +49,17 @@
         </div>
       }
 
-      <div id="gallery">
-        @for (int i = 0; i < views.Count; i++)
-        {
-          var _i = i;
-          <span id="gallery-item-@i" style="width:19%;">
-            <img id="@("#abc"+i)" src="@views[i].SourceImgName" view="@i" class="gallery-img"
-                 @onclick="e=>onImgMouseClick(_i)">
-          </span>
-        }
-      </div>
+      @if (views.Count > 1) {
+        <div id="gallery">
+          @for (int i = 0; i < views.Count; i++) {
+            var _i = i;
+            <span id="gallery-item-@i" style="width:19%;">
+              <img id="@("#abc"+i)" src="@views[i].SourceImgName" view="@i" class="gallery-img"
+                   @onclick="e => onImgMouseClick(_i)">
+            </span>
+          }
+        </div>
+      }
     </div>
 
     <div class="line-4 container" id="GridResize">
@@ -68,8 +69,12 @@
             <th class="listitemheader">Hus nr.<i class="fas fa-sort"></i></th>
             <th class="listitemheader">Boyta<i class="fas fa-sort"></i></th>
             <th class="listitemheader">Pris<i class="fas fa-sort"></i></th>
-            <th class="listitemheader">Hyra<i class="fas fa-sort"></i></th>
-            <th class="listitemheader hideonmobile">Tomtarea<i class="fas fa-sort"></i></th>
+            @if (Project.DisplayRent) {
+              <th class="listitemheader">Hyra<i class="fas fa-sort"></i></th>
+            }
+            @if (Project.DisplayLandArea) {
+              <th class="listitemheader hideonmobile">Tomtarea<i class="fas fa-sort"></i></th>
+            }
             <th class="listitemheader">Status<i class="fas fa-sort"></i></th>
           </tr>
         </thead>
@@ -87,8 +92,12 @@
               <td class="listitemcell">@HouseData[i].HouseNumber</td>
               <td class="listitemcell">@(HouseData[i].DisplayInfo() ? HouseData[i].DisplaySqm("-") : "-")</td>
               <td class="listitemcell">@(HouseData[i].DisplayInfo() ? HouseData[i].DisplayPrice("-") : "-")</td>
-              <td class="listitemcell">@HouseData[i].DisplayRent("-")</td>
-              <td class="listitemcell hideonmobile">@HouseData[i].LandArea</td>
+              @if (Project.DisplayRent) {
+                <td class="listitemcell">@HouseData[i].DisplayRent("-")</td>
+              }
+              @if (Project.DisplayLandArea) {
+                <td class="listitemcell hideonmobile">@HouseData[i].DisplayLandArea("-")</td>
+              }
               <td class="listitemcell">
                 @if (HouseData[i].Status == House.StatusType.Available)
                 {<p style="color:forestgreen; margin-bottom:2px; margin-top:5px; "> @houseStatusDisplayName </p>}

@@ -2,6 +2,7 @@
   "Name": "Kilen",
   "IsSunStudy": false,
   "DisplayRent": false,
+  "DisplayLandArea": false,
   "GPS": {
     "Latitude": 59.534533,
     "Longitude": 17.940488

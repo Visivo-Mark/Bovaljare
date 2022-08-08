@@ -12,6 +12,7 @@ namespace Bovaljare.Data
     public string Name { get; set; }
     public bool IsSunStudy { get; set; } = false;
     public bool DisplayRent { get; set; } = false;
+    public bool DisplayLandArea { get; set; } = false;
     public Dictionary<string, double> GPS { get; set; }
 
     public static Project GetProject(string uri)

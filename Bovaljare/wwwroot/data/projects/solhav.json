@@ -2,6 +2,7 @@
   "Name": "SolHav",
   "IsSunStudy": false,
   "DisplayRent": false,
+  "DisplayLandArea": true,
   "GPS": {
     "Latitude": 56.410291,
     "Longitude": 12.638953

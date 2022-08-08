@@ -3,9 +3,13 @@
 #define FROM_XL
 #endif
 #undef RUN_DBX
+
 using System.Collections.Generic;
 using ClosedXML.Excel;
+#if RUN_DBX
+using System.Threading.Tasks;
 using Bovaljare.Util;
+#endif
 
 namespace Bovaljare.Data
 {
@@ -28,7 +32,9 @@ namespace Bovaljare.Data
     };
 
     private static readonly Dictionary<string, List<House>> houseData = new();
+#if RUN_DBX
     private static readonly Dictionary<string, Dbx> dbx = new();
+#endif
 
     public int ID { get; set; }
     public string HouseNumber { get; set; }
@@ -51,7 +57,7 @@ namespace Bovaljare.Data
 
     public static House GetColor(string houseNumber)
     {
-      return new House { ID = 0, Sqm = "148 m²", LandArea = "-", HouseNumber = "0", Status = StatusType.Available, Housetype = "V2-color" };
+      return new House { ID = 0, Sqm = "148 m²", HouseNumber = "0", Status = StatusType.Available, Housetype = "V2-color" };
     }
 
     public static StatusType GetStatusType(string status) {
@@ -93,7 +99,7 @@ namespace Bovaljare.Data
       if (!string.IsNullOrEmpty(Sqm))
         return Sqm + " m²";
       else
-        return def != null ? def : "";
+        return def ?? "";
     }
 
     public string DisplayLandArea(string def = null)
@@ -101,7 +107,7 @@ namespace Bovaljare.Data
       if (!string.IsNullOrEmpty(LandArea))
         return LandArea + " m²";
       else
-        return def != null ? def : "";
+        return def ?? "";
     }
 
     public string DisplayPrice(string def = null)
@@ -109,7 +115,7 @@ namespace Bovaljare.Data
       if (!string.IsNullOrEmpty(Price))
         return string.Format("{0:# ### ### ###} kr", int.Parse(Price));
       else
-        return def != null ? def : "";
+        return def ?? "";
     }
 
     public string DisplayRent(string def = null)
@@ -117,7 +123,7 @@ namespace Bovaljare.Data
       if (!string.IsNullOrEmpty(Rent))
         return string.Format("{0:# ### ### ###} kr/mån", int.Parse(Rent));
       else
-        return def != null ? def : "";
+        return def ?? "";
     }
 
     public bool DisplayInfo()
@@ -169,7 +175,7 @@ namespace Bovaljare.Data
       if (!houseData.ContainsKey(project)) {
         houseData.Add(project, new List<House>());
       }
-      List<House> houses = null;
+      List<House> houses;
 
       using (var excel = new XLWorkbook(@"wwwroot\data\houses\" + project + ".xlsx")) {
         var sheet = excel.Worksheet(1);
@@ -198,7 +204,7 @@ namespace Bovaljare.Data
       return houseData[project];
     }
 #else
-    public static async Task<List<House>> GetHouseData(string project)
+    public static List<House> GetHouseData(string project)
     {
       if (!houseData.ContainsKey(project)) {
         List<House> houses = null;

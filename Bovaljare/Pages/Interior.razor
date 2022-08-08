@@ -1,5 +1,4 @@
-﻿@page "/kilen/interior/{HouseID}"
-@layout Shared.Kilen.Layout
+﻿@page "/{ProjectUri}/interior/{HouseID}"
 
 @implements IDisposable
 @implements IAsyncDisposable
@@ -36,14 +35,14 @@
       <div class="line-7">
         <!-- Stillbilder -->
         <div id="slideshow" class="@(ShowInfo ? "" : "full")">
-          <div id="gallery-carousel" class="carousel slide" data-bs-ride="carousel" data-interval="false">
-            <div class="carousel-indicators">
+          <div id="gallery-carousel" class="carousel slide" data-interval="false">
+            <ol class="carousel-indicators">
               @for (int i = 0; i < HouseData.Images.Count; i++)
               {
                 <button type="button" data-bs-target="#gallery-carousel" data-bs-slide-to="@i" class="@(i == 0 ? "active" : "")"
                         aria-current="@(i == 0)" aria-label="Slide @(i+1)"></button>
               }
-            </div>
+            </ol>
             <div class="carousel-inner">
               @for (int i = 0; i < HouseData.Images.Count; i++)
               {
@@ -175,7 +174,6 @@
 
 @code {
   private static Interior self;
-  private static string Project { get; } = "Kilen";
 
   public string MoveIcon2 { get; set; } = "position: absolute; left: 52%; top: 12px;";
   public string MoveIcon { get; set; } = "position: absolute; left: 78%; top: 17px;";
@@ -183,6 +181,9 @@
   private bool isChecked = true;
   public Dictionary<string, List<House>> MapData { get; set; }
 
+  [Parameter]
+  public string ProjectUri { get; set; }
+  public Project Project { get; set; }
   [Parameter]
   public string HouseID { get; set; }
   public House House { get; set; }
@@ -205,9 +206,10 @@
   {
     base.OnInitialized();
 
-    House = House.Get(int.Parse(HouseID), Project);
+    this.Project = Project.GetProject(ProjectUri);
+    this.House = House.Get(int.Parse(HouseID), Project.Name);
     string houseType = House.Housetype;
-    HouseData = HouseType.GetData(houseType, Project);
+    this.HouseData = HouseType.GetData(houseType, Project.Name);
     self = this;
     SelectedImage = HouseData.Images[0];
 
@@ -336,7 +338,7 @@
     width: 48%
   }
 
-  .visibleButtonCP {
+  .visibleButtonCP{
     width: 48%
   }
 
@@ -803,7 +805,7 @@
     text-transform: none;
   }
 
-  @@media (max-width: 1379px) {
+   @@media (max-width: 1379px){
 
     .textitem {
       width: 21%;

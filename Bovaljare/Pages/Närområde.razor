@@ -1,8 +1,8 @@
-﻿@page "/wijk/närområde"
-@layout Shared.WIJK.Layout
+﻿@page "/{ProjectUri}/närområde"
 
 @using Syncfusion.Blazor.Buttons
 @using Syncfusion.Blazor.Cards
+@using Bovaljare.Data
 @inject IJSRuntime JSRuntime
 
 
@@ -57,12 +57,23 @@
 @code {
   private string checkedValue = "car";
 
+  [Parameter]
+  public string ProjectUri { get; set; }
+  public Project Project { get; set; }
+
+
+  protected override void OnInitialized()
+  {
+    base.OnInitialized();
+    this.Project = Project.GetProject(ProjectUri);
+  }
+
   protected override async Task OnAfterRenderAsync(bool firstRender)
   {
     if (firstRender)
     {
       await JSRuntime.InvokeVoidAsync(
-        "googlemaps.initAutocomplete", 59.534533, 17.940488
+        "googlemaps.initAutocomplete", Project.GPS["Latitude"], Project.GPS["Longitude"]
       );
     }
     await JSRuntime.InvokeVoidAsync("util.enableClickMenu");

@@ -1,5 +1,4 @@
-﻿@page "/wijk/Colorpicker"
-@layout Shared.WIJK.Layout
+﻿@page "/{ProjectUri}/Colorpicker"
 
 @implements IDisposable
 @implements IAsyncDisposable
@@ -89,9 +88,14 @@
 
 @code {
 
+  private static Colorpicker self;
+
   private bool isChecked = true;
   public Dictionary<string, List<House>> MapData { get; set; }
 
+  [Parameter]
+  public string ProjectUri { get; set; }
+  public string Project { get; set; }
   [Parameter]
   public string HouseID { get; set; }
   public House House { get; set; }
@@ -106,9 +110,6 @@
 
   private bool InitRoundme { get; set; } = false;
   private bool firstRenderDone = false;
-
-  private static Colorpicker self;
-  private static string Project { get; } = "WIJK";
 
 
   protected override void OnInitialized()

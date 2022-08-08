@@ -1,5 +1,4 @@
-﻿@page "/kilen"
-@layout Shared.Kilen.Layout
+﻿@page "/{ProjectUri}"
 
 @using Syncfusion.Blazor.Buttons
 @using Syncfusion.Blazor.SplitButtons
@@ -30,57 +29,61 @@
         var _i = i;
         <div id="view-@_i" class="marginmobile" style="@(!ViewsInited || CurrentView == "view-"+(_i+1) ? "" : "display: none;") @(ViewsInited ? "" : "visibility: hidden;")">
 
-          <map id="houses-@_i" name="houses-@_i">
-
-            @foreach (KeyValuePair<string, List<HouseMap>> view in MapData)
-            {
-              if (view.Key == HouseMap.ImageNameToVariant(views[_i].SourceImgName))
-              {
-                @foreach (HouseMap map in view.Value)
-                {
-                  var houseStatus = House.StatusType.Available;
-                  if (map.ID > 0)
-                    houseStatus = House.Get(map.ID, Project).Status;
-
-                  <area id="@houseStatus" status="" href="#"
-                        @onmouseover="e => OnMouseOverIM(e, map.HouseNumber, views[_i].Name, map.View)"
-                        @onmouseout="() => OnMouseOutIM(map.HouseNumber)"
-                        @onclick="() => HousingClicked(map.ID, views[_i].Name, map.View, houseStatus)"
-                        coords="@map.IMCoords" shape="poly">
-                }
-              }
-            }
-          </map>
-
-          @* SUNSTUDY
-          @for (int j = 0; j < Views[_i].SunStudies.Count; j++)
+          @if (Project.IsSunStudy)
           {
-            var _j = j;
-            var sunStudy = _j == 0 ? "morning" : (_j == 1 ? "midday" : "evening");
-            <div id="sun-study-@sunStudy" style="position:relative; @(!ViewsInited || CurrentStudy == sunStudy ? "" : "display: none;")">
+            @for (int j = 0; j < views[_i].SunStudies.Count; j++)
+            {
+              var _j = j;
+              var sunStudy = _j == 0 ? "morning" : (_j == 1 ? "midday" : "evening");
+              <div id="sun-study-@sunStudy" style="position:relative; @(!ViewsInited || CurrentSunStudy == sunStudy ? "" : "display: none;")">
 
-              <map id="houses-@_i-@sunStudy" name="houses-@_i-@sunStudy">
+                <map id="houses-@_i-@sunStudy" name="houses-@_i-@sunStudy">
 
-                @foreach (KeyValuePair<string, List<HouseMap>> view in MapData)
-                {
-                  if (view.Key == HouseMap.ImageNameToVariant(Views[_i].SunStudies["midday"]))
+                  @foreach (KeyValuePair<string, List<HouseMap>> view in MapData)
                   {
-                    @foreach (HouseMap map in view.Value)
+                    if (view.Key == HouseMap.ImageNameToVariant(views[_i].SunStudies["midday"]))
                     {
-                      var houseStatus = House.Get(map.ID).Status;
+                      @foreach (HouseMap map in view.Value)
+                      {
+                        var houseStatus = House.StatusType.Available;
+                        if (map.ID > 0)
+                          houseStatus = House.Get(map.ID, Project.Name).Status;
 
-                      <area id="@House.Get(map.ID).Status" status="" href="#"
-                            @onmouseover="e => OnMouseOverIM(e, map.HouseNumber, Views[_i].Name, map.View)"
-                            @onmouseout="() => OnMouseOutIM(map.HouseNumber)"
-                            @onclick="() => HousingClicked(map.ID, Views[_i].Name, map.View, houseStatus)"
-                            coords="@map.IMCoords" shape="poly">
+                        <area id="@houseStatus" status="" href="#"
+                              @onmouseover="e => OnMouseOverIM(e, map.HouseNumber, views[_i].Name, map.View)"
+                              @onmouseout="() => OnMouseOutIM(map.HouseNumber)"
+                              @onclick="() => HousingClicked(map.ID, views[_i].Name, map.View, houseStatus)"
+                              coords="@map.IMCoords" shape="poly">
+                      }
                     }
                   }
-                }
-              </map>
-            </div>
+                </map>
+              </div>
+            }
           }
-          /SUNSTUDY *@
+          else
+          {
+            <map id="houses-@_i" name="houses-@_i">
+              @foreach (KeyValuePair<string, List<HouseMap>> view in MapData)
+              {
+                if (view.Key == HouseMap.ImageNameToVariant(views[_i].SourceImgName))
+                {
+                  @foreach (HouseMap map in view.Value)
+                  {
+                    var houseStatus = House.StatusType.Available;
+                    if (map.ID > 0)
+                      houseStatus = House.Get(map.ID, Project.Name).Status;
+
+                    <area id="@houseStatus" status="" href="#"
+                          @onmouseover="e => OnMouseOverIM(e, map.HouseNumber, views[_i].Name, map.View)"
+                          @onmouseout="() => OnMouseOutIM(map.HouseNumber)"
+                          @onclick="() => HousingClicked(map.ID, views[_i].Name, map.View, houseStatus)"
+                          coords="@map.IMCoords" shape="poly">
+                  }
+                }
+              }
+            </map>
+          }
         </div>
       }
 
@@ -104,49 +107,55 @@
           </SfChip>
         </div>
 
+        @if (Project.IsSunStudy) {
+          <button onclick="window.location.href='/@Project/Solstudie'" type="button" class="sunstudybtn">Solstudie</button>
+        }
+
         <div id="view_menu">
           <SfDropDownButton Content="Byt Område">
             <DropDownButtonEvents ItemSelected="@ChangeView" />
             <DropDownMenuItems>
               @for (int i = 0; i < views.Count; i++)
               {
-                <DropDownMenuItem Id="@views[i].Name" Text="@views[i].DisplayName"></DropDownMenuItem>
+                <DropDownMenuItem Id="@views[i].Name" Text="@views[i].DisplayName" class="item-background"></DropDownMenuItem>
               }
             </DropDownMenuItems>
           </SfDropDownButton>
+
+          @if (Project.IsSunStudy) {
+            <div id="sun_study_menu" style="display:none">
+              <SfDropDownButton IconCss="e-icons e-sun-study" Content="Solstudie">
+                <DropDownButtonEvents ItemSelected="@ChangeSunStudy" />
+                <DropDownMenuItems>
+                  <DropDownMenuItem Id="morning" Text="Morgon" class="item-background"></DropDownMenuItem>
+                  <DropDownMenuItem Id="midday" Text="Mitt på dagen" class="item-background"></DropDownMenuItem>
+                  <DropDownMenuItem Id="evening" Text="Kväll" class="item-background"></DropDownMenuItem>
+                </DropDownMenuItems>
+              </SfDropDownButton>
+            </div>
+          }
         </div>
       </div>
     </div>
   </ContentTemplate>
 </SpinLoader>
 
-@code {
-  private static string Project { get; } = "Kilen";
 
+@code {
   // Views is a list of the class viewdata that contains all the overview images; it's used in the For loops for the "overview gallery".
   // If more overviews are needed, add more to Views as a new object of ViewData to the list.
-  private Views views = new Views(
-    new ViewData() {
-      Name = "view-1",
-      DisplayName = "Översikt",
-      ImageMapName = "imagemap-1",
-      SourceImgName = "IMG/Kilen/exterior/DJI_0227.jpg",
-    },
+  private Views views;
 
-    new ViewData() {
-      Name = "view-2",
-      DisplayName = "Radhus",
-      ImageMapName = "imagemap-2",
-      SourceImgName = "IMG/Kilen/exterior/Oversikt_Bostadsväljare_3K.jpg",
-    }
-  );
-
+  [Parameter]
+  public string ProjectUri { get; set; }
+  public Project Project { get; set; }
   public List<House> HouseData { get; set; }
   public Dictionary<string, List<HouseMap>> MapData { get; set; }
-  private string CurrentView { get; set; } = "view-1"; //this can be set to a diffrent inte depending on wich starting "overview is needed" 0 is the first class object in the views list.  
-  /* SUNSTUDY
-  private string CurrentStudy { get; set; } = "midday"; // displays the current images in views -> SunStudies dictionary. cant be used if a dropdown sunstudy is needed to switch between diffrent images (time of the day) on the overviewImage.
-     /SUNSTUDY */
+  /** This can be set to a diffrent inte depending on wich starting "overview is needed" 0 is the first class object in the views list. */
+  private string CurrentView { get; set; } = "view-1";
+  /** Displays the current images in views -> SunStudies dictionary.
+   *  Can't be used if a dropdown sunstudy is needed to switch between diffrent images (time of the day) on the overview image. */
+  private string CurrentSunStudy { get; set; } = "midday";
   private int MobileSelection { get; set; } = -1;
 
   private bool ImagesLoaded { get; set; } = false; // is used with the spinloader 
@@ -159,13 +168,18 @@
   private string MouseOverHouse { get; set; } = ""; // displays the housenumber depending on what house is currently beeing hoovred. 
 
 
+  protected override void OnInitialized()
+  {
+    base.OnInitialized();
+    this.Project = Project.GetProject(ProjectUri);
+    this.views = Views.LoadViewData(Project.Name, "exterior");
+    this.HouseData = House.GetHouseData(Project.Name);
+    this.MapData = HouseMap.GetHouseMapData(Project.Name);
+  }
+
   protected override async Task OnAfterRenderAsync(bool firstRender)
   {
-    if (firstRender)
-    {
-      this.HouseData = House.GetHouseData(Project);
-      this.MapData = HouseMap.GetHouseMapData(Project);
-
+    if (firstRender) {
       // initializes the js needed for the pages and disposes the ones that are not used. 
 
       await JSRuntime.InvokeVoidAsync("lgh_lista.dispose");
@@ -173,7 +187,7 @@
       await JSRuntime.InvokeVoidAsync("mapster.dispose");
       await JSRuntime.InvokeVoidAsync("mapster_responsive.dispose");
       await JSRuntime.InvokeVoidAsync("mapster_responsive.initialize", true);
-      ImagesLoaded = await JSRuntime.InvokeAsync<bool>("exterior.loadImages", views.GetViewData(), false);
+      ImagesLoaded = await JSRuntime.InvokeAsync<bool>("exterior.loadImages", views.GetViewData(), Project.IsSunStudy);
       firstRenderDone = true;
       base.StateHasChanged();
       await JSRuntime.InvokeVoidAsync("exterior.applyImages");
@@ -189,27 +203,27 @@
   }
 
   // changes the view depending on what name is selected from the dropdown menu
-  public async void ChangeView(Syncfusion.Blazor.SplitButtons.MenuEventArgs args)
+  public async void ChangeView(MenuEventArgs args)
   {
     this.CurrentView = args.Item.Id;
-    await JSRuntime.InvokeVoidAsync("exterior.changeImage", this.CurrentView);
-    /* SUNSTUDY
-    await JSRuntime.InvokeVoidAsync("exterior.changeImage", this.CurrentView, this.CurrentStudy);
-       /SUNSTUDY */
+    if (Project.IsSunStudy)
+      await JSRuntime.InvokeVoidAsync("exterior.changeImage", this.CurrentView, this.CurrentSunStudy);
+    else
+      await JSRuntime.InvokeVoidAsync("exterior.changeImage", this.CurrentView);
 
     this.MobileSelection = -1;
     base.StateHasChanged();
   }
 
-  // not in use. but can be used the same way as above with dropdown meny, but changes the current sunstudy selection of the current view instead of changing to a diffrent view. 
-  //public async void ChangeSunStudy(Syncfusion.Blazor.SplitButtons.MenuEventArgs args)
-  //{
-  //  this.CurrentStudy = args.Element.ID;
-  //  await JSRuntime.InvokeVoidAsync("exterior.changeImage", this.CurrentView, this.CurrentStudy);
+  // not in use. but can be used the same way as above with dropdown menu, but changes the current sunstudy selection of the current view instead of changing to a diffrent view. 
+  public async void ChangeSunStudy(MenuEventArgs args)
+  {
+    this.CurrentSunStudy = args.Item.Id;
+    await JSRuntime.InvokeVoidAsync("exterior.changeImage", this.CurrentView, this.CurrentSunStudy);
 
-  //  this.MobileSelection = -1;
-  //  base.StateHasChanged();
-  //}
+    this.MobileSelection = -1;
+    base.StateHasChanged();
+  }
 
   //hides the tooltip and increments MouseOut. 
   private async void OnMouseOutIM(string houseNumber)
@@ -262,7 +276,7 @@
           msg = House.StatusDisplayName[house.Status];
         }
         else {
-          msg = String.Format("Lgh nr.:\t\t\t{0}\nBoyta:\t\t\t{1}\nPris:\t\t\t{2}{3}\nUpplåtelseform:\t{4}",
+          msg = String.Format("Hus nr.:\t\t\t{0}\nBoyta:\t\t\t{1}\nPris:\t\t\t{2}{3}\nUpplåtelseform:\t{4}",
                               house.HouseNumber,
                               house.DisplaySqm("-"),
                               house.DisplayPrice("-"),
@@ -293,10 +307,10 @@
   private async void BackClicked()
   {
     this.CurrentView = "view-1";
-    await JSRuntime.InvokeVoidAsync("exterior.changeImage", this.CurrentView);
-    /* SUNSTUDY
-    await JSRuntime.InvokeVoidAsync("exterior.changeImage", this.CurrentView, this.CurrentStudy);
-       /SUNSTUDY */
+    if (Project.IsSunStudy)
+      await JSRuntime.InvokeVoidAsync("exterior.changeImage", this.CurrentView, this.CurrentSunStudy);
+    else
+      await JSRuntime.InvokeVoidAsync("exterior.changeImage", this.CurrentView);
 
     this.MobileSelection = -1;
     base.StateHasChanged();
@@ -304,18 +318,16 @@
 
   // Takes the user to the Interior page with the housenumber that is selected,
   // unless the current view is an overview, then the user is taken to a diffrent view instead.
-  private async void HousingClicked(int houseId, string viewName, string viewId, House.StatusType houseStatus)
+  private async void HousingClicked(int houseId, string viewName, string targetView, House.StatusType houseStatus)
   {
-    if (houseStatus == House.StatusType.Available || houseStatus == House.StatusType.Booked)
-    {
-      if (viewName == "view-1")
-      {
-        this.CurrentView = viewId;
+    if (houseStatus == House.StatusType.Available || houseStatus == House.StatusType.Booked) {
+      if (viewName == "view-1") {
+        this.CurrentView = targetView;
 
-        await JSRuntime.InvokeVoidAsync("exterior.changeImage", viewId);
-        /* SUNSTUDY
-        await JSRuntime.InvokeVoidAsync("exterior.changeImage", viewId, this.CurrentStudy);
-            /SUNSTUDY */
+        if (Project.IsSunStudy)
+          await JSRuntime.InvokeVoidAsync("exterior.changeImage", targetView, this.CurrentSunStudy);
+        else
+          await JSRuntime.InvokeVoidAsync("exterior.changeImage", targetView);
 
         this.MobileSelection = -1;
         base.StateHasChanged();
@@ -323,19 +335,17 @@
       else 
       {
         var mobile = await JSRuntime.InvokeAsync<bool>("util.isDevice");
-        if (mobile && MobileSelection != houseId)
-        {
+        if (mobile && MobileSelection != houseId) {
           //ShowTooltip(x, y, houseID);
           MobileSelection = houseId;
         }
-        else
-        {
+        else {
           try {
             await JSRuntime.InvokeVoidAsync("util.disableContent");
             await JSRuntime.InvokeVoidAsync("util.disableClickMenu");
             await JSRuntime.InvokeVoidAsync("util.hideTooltip");
           } catch (TaskCanceledException _) {}
-          navManager.NavigateTo("/" + Project.ToLower() + "/interior/" + houseId);
+          navManager.NavigateTo("/" + Project.Name.ToLower() + "/interior/" + houseId);
         }
       }
     }
@@ -371,7 +381,7 @@
     margin-top:8px;
     margin-bottom:15px;
     font-size: 15px;
-    border-color:transparent;
+    border-color: transparent;
   }
 
   .backIcon {
@@ -389,7 +399,7 @@
     left: 28px;
     display: flex;
     flex-direction: column;
-    justify-content:center;
+    justify-content: center;
   }
 
   .e-chip-list.e-chip, .e-chip-list .e-chip {

@@ -1,11 +1,23 @@
 ﻿@using Syncfusion.Blazor.Buttons
 @using Syncfusion.Blazor.Navigations
+@using Bovaljare.Data
 
 @inject IJSRuntime JSRuntime
+@inject NavigationManager navManager
 
 
 <div id="topnav">
   <header class="header">
+    <input class="menu-btn" type="checkbox" id="menu-btn" />
+    <label class="menu-icon" for="menu-btn"><span class="navicon"></span></label>
+    <ul class="menu" style="color:white;">
+      <li><a style="color:#415965;" onclick="menuOnClick(this)" href="@ProjectUri">Bostadsväljare</a></li>
+      <li><a style="color:#415965;" onclick="menuOnClick(this)" href="@ProjectUri/lgh_lista">Bostadslista</a></li>
+      @if (Project.IsSunStudy) {
+        <li><a style="color:#415965;" onclick="menuOnClick(this)" href="@ProjectUri/Solstudie">Solstudie</a></li>
+      }
+      <li><a style="color:#415965;" onclick="menuOnClick(this)" href="@ProjectUri/närområde">Närområde</a></li>
+    </ul>
   </header>
 
   <span style="float: right; margin-top: 20px; margin-right: 20px;">     
@@ -15,13 +27,25 @@
 
 
 @code {
+  public string ProjectUri { get; set; }
+  public Project Project { get; set; }
+
+  protected override void OnInitialized()
+  {
+    ProjectUri = navManager.Uri.Remove(0, navManager.BaseUri.Length);
+    if (ProjectUri.IndexOf('/') >= 0) {
+      ProjectUri = ProjectUri.Remove(ProjectUri.IndexOf('/'));
+    }
+
+    Project = Project.GetProject(ProjectUri);
+  }
 
   protected override async Task OnAfterRenderAsync(bool firstRender)
   {
-    if (firstRender)
+    if (firstRender) {
       await JSRuntime.InvokeVoidAsync("bv.initialize");
+    }
   }
-
 }
 
 

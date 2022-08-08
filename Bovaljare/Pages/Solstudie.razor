@@ -1,5 +1,4 @@
-﻿@page "/wijk/Solstudie"
-@layout Shared.WIJK.Layout
+﻿@page "/{ProjectUri}/Solstudie"
 
 @inject IJSRuntime JSRuntime
 @using BlazorPro.Spinkit
@@ -94,6 +93,9 @@
 <MediaQuery Media="@Breakpoints.XSmallDown" @bind-Matches="IsXSmall" />
 
 @code {
+  [Parameter]
+  public string ProjectUri { get; set; }
+
   bool IsXSmall = false;
 
   protected override async Task OnAfterRenderAsync(bool firstRender)

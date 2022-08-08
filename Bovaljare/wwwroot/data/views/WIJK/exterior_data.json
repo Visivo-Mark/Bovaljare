@@ -1,0 +1,52 @@
+[
+  {
+    "Name": "view-1",
+    "DisplayName": "Översikt",
+    "ImageMapName": "imagemap-1",
+    "SunStudies": {
+      "morning": "IMG/WIJK/exterior/OversiktStora_medium.jpg",
+      "midday": "IMG/WIJK/exterior/OversiktStora_medium.jpg",
+      "evening": "IMG/WIJK/exterior/OversiktStora_medium.jpg"
+    }
+  },
+  {
+    "Name": "view-2",
+    "DisplayName": "Etapp 1, radhus och kedjehus",
+    "ImageMapName": "imagemap-2",
+    "SunStudies": {
+      "morning": "IMG/WIJK/exterior/Oversikt1-5_medium.jpg",
+      "midday": "IMG/WIJK/exterior/Oversikt1-5_medium.jpg",
+      "evening": "IMG/WIJK/exterior/Oversikt1-5_medium.jpg"
+    }
+  },
+  {
+    "Name": "view-3",
+    "DisplayName": "Villor",
+    "ImageMapName": "imagemap-3",
+    "SunStudies": {
+      "morning": "IMG/WIJK/exterior/Oversikt_V2_medium.jpg",
+      "midday": "IMG/WIJK/exterior/Oversikt_V2_medium.jpg",
+      "evening": "IMG/WIJK/exterior/Oversikt_V2_medium.jpg"
+    }
+  },
+  {
+    "Name": "view-4",
+    "DisplayName": "Etapp 2, Brf-radhus",
+    "ImageMapName": "imagemap-4",
+    "SunStudies": {
+      "morning": "IMG/WIJK/exterior/Oversikt8_medium.jpg",
+      "midday": "IMG/WIJK/exterior/Oversikt8_medium.jpg",
+      "evening": "IMG/WIJK/exterior/Oversikt8_medium.jpg"
+    }
+  },
+  {
+    "Name": "view-5",
+    "DisplayName": "Etapp 2 – radhus och kedjehus",
+    "ImageMapName": "imagemap-5",
+    "SunStudies": {
+      "morning": "IMG/WIJK/exterior/Oversikt11_medium.jpg",
+      "midday": "IMG/WIJK/exterior/Oversikt11_medium.jpg",
+      "evening": "IMG/WIJK/exterior/Oversikt11_medium.jpg"
+    }
+  }
+]

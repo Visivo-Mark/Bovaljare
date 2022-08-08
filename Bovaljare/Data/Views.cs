@@ -1,4 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.IO;
+using Newtonsoft.Json;
+using Bovaljare.Util;
 
 namespace Bovaljare.Data
 {
@@ -12,7 +15,10 @@ namespace Bovaljare.Data
     public bool Initialized { get; set; } = false;
   }
 
-  public class Views {
+  public class Views
+  {
+    private static readonly Dictionary<string, Views> _views = new();
+
     private List<ViewData> Data { get; set; }
 
     public ViewData this[int i] {
@@ -37,6 +43,17 @@ namespace Bovaljare.Data
 
     public ViewData GetView(string name) {
       return Data.Find(view => view.Name == name);
+    }
+
+    public static Views LoadViewData(string project, string filename)
+    {
+      if (!_views.ContainsKey(project)) {
+        string json = FileHandler.GetContents(@"wwwroot\data\views\" + project + @"\" + filename + "_data.json");
+        List<ViewData> data = JsonConvert.DeserializeObject<List<ViewData>>(json);
+
+        _views.Add(project, new Views(data));
+      }
+      return _views[project];
     }
   }
 }

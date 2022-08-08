@@ -1,0 +1,14 @@
+[
+  {
+    "Name": "view-1",
+    "DisplayName": "Översikt",
+    "ImageMapName": "imagemap-1",
+    "SourceImgName": "IMG/Kilen/exterior/DJI_0227.jpg"
+  },
+  {
+    "Name": "view-2",
+    "DisplayName": "Lägenheter",
+    "ImageMapName": "imagemap-2",
+    "SourceImgName": "IMG/Kilen/exterior/Oversikt_Bostadsvaljare_3K.jpg"
+  }
+]

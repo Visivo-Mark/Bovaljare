@@ -1,0 +1,14 @@
+[
+  {
+    "Name": "view-1",
+    "DisplayName": "Översikt",
+    "ImageMapName": "imagemap-1",
+    "SourceImgName": "IMG/SolHav/exterior/solhav_PerspectiveMatch_oversikt.jpg"
+  },
+  {
+    "Name": "view-2",
+    "DisplayName": "Radhus",
+    "ImageMapName": "imagemap-2",
+    "SourceImgName": "IMG/SolHav/exterior/SolHav_Oversikt_V3_BeautyElement.jpg"
+  }
+]

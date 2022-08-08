@@ -31,8 +31,8 @@ namespace Bovaljare.Data
 
     public int ID { get; set; }
     public string HouseNumber { get; set; }
-    public string IMCoords { get; set; }
     public string View { get; set; }
+    public string IMCoords { get; set; }
 
     public static Dictionary<string, List<HouseMap>> GetHouseMapData(string project)
     {
@@ -47,28 +47,13 @@ namespace Bovaljare.Data
         FileInfo[] filenames = dir.GetFiles("*.json");
 
         foreach (FileInfo filename in filenames) {
+          if (filename.Name == "exterior_data.json" || filename.Name == "apt_list_data.json")
+            continue;
+
           string filePath = filename.FullName;
           string json = FileHandler.GetContents(filePath);
-          List<HouseMap> houseMaps = new();
+          List<HouseMap> houseMaps = JsonConvert.DeserializeObject<List<HouseMap>>(json);
 
-          using (var reader = new JsonTextReader(new StringReader(json))) {
-            while (reader.Read()) {
-              // For each read key-value pair, there is another that should follow:
-              // first is either "HouseNumber" or "View",
-              // second are the coordinates.
-              if (reader.Value != null) {
-                bool isHouseNumber = reader.Value.ToString() == "HouseNumber";
-                reader.Read();
-                string idValue = reader.Value.ToString();
-                reader.Read(); // Skip key "coords"
-                reader.Read();
-                houseMaps.Add(isHouseNumber
-                            ? new HouseMap { HouseNumber = idValue, IMCoords = reader.Value.ToString() }
-                            : new HouseMap { View = idValue, IMCoords = reader.Value.ToString() }
-                );
-              }
-            }
-          }
           projectData.Add(Path.GetFileNameWithoutExtension(filePath), houseMaps);
         }
 

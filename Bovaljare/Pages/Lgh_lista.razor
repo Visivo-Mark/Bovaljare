@@ -135,44 +135,14 @@
   private bool InitialRender = false;
   private bool firstRenderDone = false;
 
-  private static string _id = "house-main-";
-  private static string _mapName = "house-map-";
-  private static int _ind = 0;
-
-  private Views views = new Views(
-    new ViewData() {
-      Name = _id + _ind,
-      SourceImgName = "IMG/WIJK/exterior/OversiktStora_medium2.jpg",
-      ImageMapName = _mapName +_ind++,
-    },
-    new ViewData {
-      Name = _id + _ind,
-      SourceImgName = "IMG/WIJK/exterior/Oversikt_V2_medium.jpg",
-      ImageMapName = _mapName + _ind++,
-    },
-    new ViewData {
-      Name = _id + _ind,
-      SourceImgName = "IMG/WIJK/exterior/Oversikt1-5_medium.jpg",
-      ImageMapName = _mapName + _ind++,
-    },
-    new ViewData {
-      Name = _id + _ind,
-      SourceImgName = "IMG/WIJK/exterior/Oversikt8_medium.jpg",
-      ImageMapName = _mapName + _ind++,
-    },
-    new ViewData {
-      Name = _id + _ind,
-      SourceImgName = "IMG/WIJK/exterior/Oversikt11_medium.jpg",
-      ImageMapName = _mapName + _ind++,
-    }
-  );
+  private Views views;
 
   protected override void OnInitialized()
   {
     base.OnInitialized();
     self = this;
-    _ind = 0; // Reset index counter.
     this.Project = Project.GetProject(ProjectUri);
+    this.views = Views.LoadViewData(ProjectUri, "apt_list");
     this.HouseData = House.GetHouseData(Project.Name);
     this.MapData = HouseMap.GetHouseMapData(Project.Name);
     this.HouseToStatus = new Dictionary<string, string>();
@@ -455,7 +425,6 @@
     if (!firstRenderDone)
       return;
 
-    _ind = 0;
     DisposeAsync();
   }
 

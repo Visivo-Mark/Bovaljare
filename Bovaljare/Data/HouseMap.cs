@@ -1,10 +1,9 @@
 ﻿#if DEBUG
-/// Useful when wanting to touch up on image-maps without having to restart app.
-#define ALWAYS_GET_DATA
+/// Useful when wanting to touch-up on image-map coordinates without having to restart the app.
+#define ALWAYS_LOAD_DATA
 #endif
 using System.Collections.Generic;
 using System.IO;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Bovaljare.Util;
 
@@ -37,7 +36,7 @@ namespace Bovaljare.Data
     public static Dictionary<string, List<HouseMap>> GetHouseMapData(string project)
     {
       if (!data.ContainsKey(project))
-#if ALWAYS_GET_DATA
+#if ALWAYS_LOAD_DATA
         data.Add(project, null);
 #endif
       {
@@ -59,10 +58,8 @@ namespace Bovaljare.Data
 
         /// Get the id corresponding to a map's house number, in order to link each mapping to a house or apt.
         List<House> houseData = House.GetHouseData(project);
-        foreach (KeyValuePair<string, List<HouseMap>> view in projectData)
-        {
-          foreach (HouseMap map in view.Value)
-          {
+        foreach (KeyValuePair<string, List<HouseMap>> view in projectData) {
+          foreach (HouseMap map in view.Value) {
             if (map.HouseNumber != null)
               map.ID = houseData.Find(x => x.HouseNumber == map.HouseNumber).ID;
             else
@@ -70,7 +67,7 @@ namespace Bovaljare.Data
           }
         }
 
-#if ALWAYS_GET_DATA
+#if ALWAYS_LOAD_DATA
         data[project] = projectData;
 #else
         data.Add(project, projectData);

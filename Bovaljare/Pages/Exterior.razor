@@ -75,10 +75,10 @@
                       houseStatus = House.Get(map.ID, Project.Name).Status;
 
                     <area id="@houseStatus" status="" href="#"
+                          coords="@map.IMCoords" shape="poly"
                           @onmouseover="e => OnMouseOverIM(e, map.HouseNumber, views[_i].Name, map.View)"
                           @onmouseout="() => OnMouseOutIM(map.HouseNumber)"
-                          @onclick="() => HousingClicked(map.ID, views[_i].Name, map.View, houseStatus)"
-                          coords="@map.IMCoords" shape="poly">
+                          @onclick="() => HousingClicked(map.ID, views[_i].Name, map.View, houseStatus)">
                   }
                 }
               }
@@ -186,19 +186,20 @@
       await JSRuntime.InvokeVoidAsync("interior.dispose");
       await JSRuntime.InvokeVoidAsync("mapster.dispose");
       await JSRuntime.InvokeVoidAsync("mapster_responsive.dispose");
+      await JSRuntime.InvokeVoidAsync("interior.hideColorpicker");
+      await JSRuntime.InvokeVoidAsync("util.hideCP");
+
       await JSRuntime.InvokeVoidAsync("mapster_responsive.initialize", true);
       ImagesLoaded = await JSRuntime.InvokeAsync<bool>("exterior.loadImages", views.GetViewData(), Project.IsSunStudy);
-      firstRenderDone = true;
       base.StateHasChanged();
       await JSRuntime.InvokeVoidAsync("exterior.applyImages");
-      await JSRuntime.InvokeVoidAsync("util.hideCP");
       await JSRuntime.InvokeVoidAsync("util.enableContent");
       await JSRuntime.InvokeVoidAsync("util.enableClickMenu");
+      await JSRuntime.InvokeVoidAsync("interior.resize");
+
+      firstRenderDone = true;
       ViewsInited = true;
       base.StateHasChanged();
-      await JSRuntime.InvokeVoidAsync("interior.resize");
-      await JSRuntime.InvokeVoidAsync("interior.hideColorpicker");
-      await JSRuntime.InvokeVoidAsync("util.enableContent");
     }
   }
 

@@ -21,15 +21,15 @@
   <ContentTemplate>
     <img src="IMG/pixel.gif" alt="" @onload="OnAfterLoader" style="position: absolute; top: 0px; visibility: hidden;" />
 
-    <div class="line-8"  id="gallerybox">
+    <div id="gallerybox" class="line-8">
       @for (int i = 0; i < views.Count; i++)
       {
         var _i = i;
-        <div id="@views[i].Name" style="@(!ViewsInited || CurrentView == _i ? "" : "display: none;") @(ViewsInited ? "" : "visibility: hidden;")">
-          <map id="@views[i].ImageMapName" name="@views[i].ImageMapName">
+        <div id="@views[_i].Name" style="@(!ViewsInited || CurrentView == _i ? "" : "display: none;") @(ViewsInited ? "" : "visibility: hidden;")">
+          <map id="@views[_i].ImageMapName" name="@views[_i].ImageMapName">
             @foreach (KeyValuePair<string, List<HouseMap>> view in MapData)
             {
-              if (view.Key == HouseMap.ImageNameToVariant(views[i].SourceImgName))
+              if (view.Key == HouseMap.ImageNameToVariant(views[_i].SourceImgName))
               {
                 @foreach (HouseMap map in view.Value)
                 {
@@ -38,10 +38,10 @@
                     houseStatus = House.Get(map.ID, Project.Name).Status;
 
                   <area id="@houseStatus" status="" href="#"
+                        coords="@map.IMCoords" shape="poly"
                         @onmouseover="e => OnMouseOverIM(e, map.HouseNumber)"
                         @onmouseout="() => OnMouseOutIM(map.HouseNumber)"
-                        @onclick="() => HousingClickedIM(map.ID, houseStatus)"
-                        coords="@map.IMCoords" shape="poly">
+                        @onclick="() => HousingClickedIM(map.ID, houseStatus)">
                 }
               }
             }
@@ -53,7 +53,7 @@
         <div id="gallery">
           @for (int i = 0; i < views.Count; i++) {
             var _i = i;
-            <span id="gallery-item-@i" style="width:19%;">
+            <span id="gallery-item-@i" style="width: 19%;">
               <img id="@("#abc"+i)" src="@views[i].SourceImgName" view="@i" class="gallery-img"
                    @onclick="e => onImgMouseClick(_i)">
             </span>
@@ -63,7 +63,7 @@
     </div>
 
     <div class="line-4 container" id="GridResize">
-      <table id="tabletest" style="width:100%;">
+      <table id="tabletest" style="width: 100%;">
         <thead>
           <tr>
             <th class="listitemheader">Hus nr.<i class="fas fa-sort"></i></th>
@@ -177,8 +177,6 @@
                           status.ToString() + statuses[status]++);
       }
     }
-
-    base.StateHasChanged();
   }
 
   protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -189,17 +187,19 @@
       await JSRuntime.InvokeVoidAsync("interior.dispose");
       await JSRuntime.InvokeVoidAsync("mapster.dispose");
       await JSRuntime.InvokeVoidAsync("mapster_responsive.dispose");
-      await JSRuntime.InvokeVoidAsync("lgh_lista.init");
-      await JSRuntime.InvokeVoidAsync("util.disableClickGridResize");
-      await JSRuntime.InvokeVoidAsync("mapster_responsive.initialize");
-      firstRenderDone = true;
-      base.StateHasChanged();
       await JSRuntime.InvokeVoidAsync("util.hideCP");
+      await JSRuntime.InvokeVoidAsync("util.disableClickGridResize");
+
+      await JSRuntime.InvokeVoidAsync("lgh_lista.init");
+      await JSRuntime.InvokeVoidAsync("mapster_responsive.initialize");
       ImagesLoaded = await JSRuntime.InvokeAsync<bool>("lgh_lista.loadImages", views.GetViewData());
+      base.StateHasChanged();
       await JSRuntime.InvokeVoidAsync("util.enableClickMenu");
       await JSRuntime.InvokeVoidAsync("util.enableClickGridResize");
       await JSRuntime.InvokeVoidAsync("lgh_lista.applyImages");
+
       ViewsInited = true;
+      firstRenderDone = true;
       base.StateHasChanged();
     }
 
@@ -208,16 +208,13 @@
 
   private async void HouselistClick(int houseID, House.StatusType houseStatus)
   {
-    if (houseStatus == House.StatusType.Available || houseStatus == House.StatusType.Booked)
-    {
+    if (houseStatus == House.StatusType.Available || houseStatus == House.StatusType.Booked) {
       var mobile = await JSRuntime.InvokeAsync<bool>("util.isDevice");
-      if (mobile && MobileSelection != houseID)
-      {
+      if (mobile && MobileSelection != houseID) {
         //ShowTooltip(x, y, houseID);
         MobileSelection = houseID;
       }
-      else
-      {
+      else {
         try {
           await JSRuntime.InvokeVoidAsync("util.disableContent");
           await JSRuntime.InvokeVoidAsync("util.disableClickMenu");
@@ -383,12 +380,10 @@
     if (houseStatus == House.StatusType.Available || houseStatus == House.StatusType.Booked)
     {
       var mobile = await JSRuntime.InvokeAsync<bool>("util.isDevice");
-      if (mobile && MobileSelection != houseId)
-      {
+      if (mobile && MobileSelection != houseId) {
         MobileSelection = houseId;
       }
-      else
-      {
+      else {
         try {
           await JSRuntime.InvokeVoidAsync("util.disableContent");
           await JSRuntime.InvokeVoidAsync("util.disableClickMenu");
@@ -410,7 +405,7 @@
   //    else
   //    {
   //      HideTooltip();
-  //      navManager.NavigateTo("/" + Project.ToLower() + "/interior/" + args.Data.ID);
+  //      navManager.NavigateTo("/" + Project.Name.ToLower() + "/interior/" + args.Data.ID);
   //    }
   //  }
   //}

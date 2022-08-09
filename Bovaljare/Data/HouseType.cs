@@ -382,7 +382,7 @@ namespace Bovaljare.Data
                 new Image { Source="IMG/WIJK/interior/V2_Allrum_plan2_75_50.jpg", Type=ImageType.Image,  },
                 new Image { Source="IMG/WIJK/interior/V2_Allrum_plan1_75_50_Pano.jpg", Type=ImageType.Roundme, Link=" https://roundme.com/embed/LJdehwUq2x8sEg9ISr38", RoomName="vardagsrum" },
                 new Image { Source="IMG/WIJK/interior/V2_Allrum_plan1_VR_25.jpg", Type=ImageType.Roundme, Link="https://player.vimeo.com/video/525597946"},
-                new Image { Source="IMG/WIJK/interior/V2_Allrum_plan2_75_50_pano.jpg", Type=ImageType.Roundme, Link=" https://roundme.com/embed/6MsTWsWFbHNuQFZI22iZ",RoomName="allrum" },
+                new Image { Source="IMG/WIJK/interior/V2_Allrum_plan2_75_50_pano.jpg", Type=ImageType.Roundme, Link=" https://roundme.com/embed/6MsTWsWFbHNuQFZI22iZ", RoomName="allrum" },
                 new Image { Source="IMG/WIJK/interior/V2_Allrum_plan2_25_vr.jpg", Type=ImageType.Roundme, Link="https://player.vimeo.com/video/525598066?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" },
                 new Image { Source="IMG/WIJK/interior/Bathroom_3_(V2_Floor-1).jpg", Type=ImageType.Image,  },
                 new Image { Source="IMG/WIJK/interior/V2_Sovrum_Master_60.jpg", Type=ImageType.Image, },
@@ -536,7 +536,7 @@ namespace Bovaljare.Data
           data.Add(project, new Dictionary<string, HouseType> {
             { "lgh", new HouseType {
               Floorplans = new List<Floorplan> {
-                new Floorplan { Source = "IMG/Kilen/interior/plan.png", Rooms = new List<Floorplan.Room> {
+                new Floorplan { Source = "IMG/Kilen/interior/Kilen_3D Floor Plan.jpg", Rooms = new List<Floorplan.Room> {
                   //new Floorplan.Room { RoomID = 6, Left = "63.5%", Top="54%", IconClass="fas fa-street-view" },
                   //new Floorplan.Room { RoomID = 4, Left = "56%", Top="60%", IconClass="fas fa-camera" },
                   //new Floorplan.Room { RoomID = 2, Left = "63%", Top="30%", IconClass="fas fa-camera" },
@@ -548,10 +548,12 @@ namespace Bovaljare.Data
               },
               Images = new List<Image> {
                 new Image { Source="IMG/Kilen/interior/Kilen_Vardagsrum-1.jpg", Type=ImageType.Image },
-                new Image { Source="IMG/Kilen/interior/Kilen_Vardagsrum-3.jpg", Type=ImageType.Image },
-                new Image { Source="IMG/Kilen/interior/220712_Kitchen_3K.jpg", Type=ImageType.Image },
+                new Image { Source="IMG/Kilen/interior/220802_Kilen-Kitchen.png", Type=ImageType.Image },
+                new Image { Source="IMG/Kilen/interior/220803_Kilen_Allrum.jpg", Type=ImageType.Image },
+                new Image { Source="IMG/Kilen/interior/220803_Kilen_Panorama.jpg", Type=ImageType.Roundme, Link="https://roundme.com/tour/884668/view/2774353", RoomName="allrum" },
+                new Image { Source="IMG/Kilen/interior/220802_Kitchen_2.jpg", Type=ImageType.Image },
                 new Image { Source="IMG/Kilen/interior/Kilen_Sovrum.jpg", Type=ImageType.Image },
-                new Image { Source="IMG/Kilen/interior/Kilen_WC.jpg", Type=ImageType.Image },
+                new Image { Source="IMG/Kilen/interior/Kilen_WC.png", Type=ImageType.Image },
                 new Image { Source="IMG/Kilen/exterior/Kilen_Moodbild-Balkong_220629_beauty element.jpg", Type=ImageType.Image },
                 new Image { Source="IMG/Kilen/exterior/Kilen_Innergard.jpg", Type=ImageType.Image },
               },

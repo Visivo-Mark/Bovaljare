@@ -1,0 +1,104 @@
+{
+  "150": {
+    "Floorplans": [
+      {
+        "Source": "IMG/SolHav/interior/Hus_150_Plan_1.png",
+        "Rooms": [
+        ]
+      },
+      {
+        "Source": "IMG/SolHav/interior/Hus_150_Plan_2.png",
+        "Rooms": [
+        ]
+      }
+    ],
+    "Images": [
+      { "Source": "IMG/SolHav/exterior/220607_SolHav_Gatubild_BeautyElement.jpg", "Type": 0 },
+      { "Source": "IMG/SolHav/exterior/SolHav_Moodbild__beauty element.jpg", "Type": 0 }
+    ],
+    "Comment": "Nån lämplig kommentar..."
+  },
+  "150 SP": {
+    "Floorplans": [
+      {
+        "Source": "IMG/SolHav/interior/Hus_150_Plan_1.png",
+        "Rooms": [
+        ]
+      },
+      {
+        "Source": "IMG/SolHav/interior/Hus_150_Plan_2.png",
+        "Rooms": [
+        ]
+      }
+    ],
+    "Images": [
+      { "Source": "IMG/SolHav/exterior/220607_SolHav_Gatubild_BeautyElement.jpg", "Type": 0 },
+      { "Source": "IMG/SolHav/exterior/SolHav_Moodbild__beauty element.jpg", "Type": 0 }
+    ],
+    "Comment": "Nån lämplig kommentar..."
+  },
+  "120 typ 1": {
+    "Floorplans": [
+      {
+        "Source": "IMG/SolHav/interior/Hus_120_TYP_1_Plan_1.png",
+        "Rooms": [
+        ]
+      }
+    ],
+    "Images": [
+      { "Source": "IMG/SolHav/interior/220711_Kitchen_3K.jpg", "Type": 0 },
+      { "Source": "IMG/SolHav/interior/220630_SolHav_KitchenZoomed_3K_JPG.jpg", "Type": 0 },
+      { "Source": "IMG/SolHav/interior/Hus-120_Sovrum_3K.jpg", "Type": 0 },
+      { "Source": "IMG/SolHav/exterior/220607_SolHav_Gatubild_BeautyElement.jpg", "Type": 0 }
+    ],
+    "Comment": "Nån lämplig kommentar..."
+  },
+  "120 typ 1 SP": {
+    "Floorplans": [
+      {
+        "Source": "IMG/SolHav/interior/Hus_120_TYP_1_SP_Plan_1.png",
+        "Rooms": [
+        ]
+      }
+    ],
+    "Images": [
+      { "Source": "IMG/SolHav/interior/220711_Kitchen_3K.jpg", "Type": 0 },
+      { "Source": "IMG/SolHav/interior/220630_SolHav_KitchenZoomed_3K_JPG.jpg", "Type": 0 },
+      { "Source": "IMG/SolHav/interior/Hus-120_Sovrum_3K.jpg", "Type": 0 },
+      { "Source": "IMG/SolHav/exterior/220607_SolHav_Gatubild_BeautyElement.jpg", "Type": 0 }
+    ],
+    "Comment": "Nån lämplig kommentar..."
+  },
+  "120 typ 2": {
+    "Floorplans": [
+      {
+        "Source": "IMG/SolHav/interior/Hus_120_TYP_2_Plan_1.png",
+        "Rooms": [
+        ]
+      }
+    ],
+    "Images": [
+      { "Source": "IMG/SolHav/interior/220711_Kitchen_3K.jpg", "Type": 0 },
+      { "Source": "IMG/SolHav/interior/220630_SolHav_KitchenZoomed_3K_JPG.jpg", "Type": 0 },
+      { "Source": "IMG/SolHav/interior/Hus-120_Sovrum_3K.jpg", "Type": 0 },
+      { "Source": "IMG/SolHav/exterior/220607_SolHav_Gatubild_BeautyElement.jpg", "Type": 0 }
+    ],
+    "Comment": "Nån lämplig kommentar..."
+  },
+  "120 typ 2 SP": {
+    "Floorplans": [
+      {
+        "Source": "IMG/SolHav/interior/Hus_120_TYP_2_SP_Plan_1.png",
+        "Rooms": [
+        ]
+      }
+    ],
+    "Images": [
+      { "Source": "IMG/SolHav/interior/220711_Kitchen_3K.jpg", "Type": 0 },
+      { "Source": "IMG/SolHav/interior/220630_SolHav_KitchenZoomed_3K_JPG.jpg", "Type": 0 },
+      { "Source": "IMG/SolHav/interior/Hus-120_Sovrum_3K.jpg", "Type": 0 },
+      { "Source": "IMG/SolHav/exterior/220607_SolHav_Gatubild_BeautyElement.jpg", "Type": 0 }
+    ],
+    "Comment": "Nån lämplig kommentar..."
+  }
+}

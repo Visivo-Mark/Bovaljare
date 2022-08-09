@@ -1,0 +1,28 @@
+{
+  "lgh": {
+    "Floorplans": [
+      {
+        "Source": "IMG/Kilen/interior/Kilen_3D Floor Plan.jpg",
+        "Rooms": [
+          { "RoomID": 0, "Left": "62%", "Top": "47%", "IconClass": "fas fa-camera"},
+          { "RoomID": 1, "Left": "42%", "Top": "35%", "IconClass": "fas fa-camera"},
+          { "RoomID": 3, "Left": "57%", "Top": "39%", "IconClass": "fas fa-street-view"},
+          { "RoomID": 5, "Left": "28%", "Top": "44%", "IconClass": "fas fa-camera"},
+          { "RoomID": 6, "Left": "50%", "Top": "60%", "IconClass": "fas fa-camera"}
+        ]
+      }
+    ],
+    "Images": [
+      { "Source": "IMG/Kilen/interior/Kilen_Vardagsrum-1.jpg", "Type": 0 },
+      { "Source": "IMG/Kilen/interior/220802_Kilen-Kitchen.png", "Type": 0 },
+      { "Source": "IMG/Kilen/interior/220803_Kilen_Allrum.jpg", "Type": 0 },
+      { "Source": "IMG/Kilen/interior/220803_Kilen_Panorama.jpg", "Type": 3, "Link": "https://roundme.com/tour/884668/view/2774353", "RoomName": "allrum" },
+      { "Source": "IMG/Kilen/interior/220802_Kitchen_2.jpg", "Type": 0 },
+      { "Source": "IMG/Kilen/interior/Kilen_Sovrum.jpg", "Type": 0 },
+      { "Source": "IMG/Kilen/interior/Kilen_WC.png", "Type": 0 },
+      { "Source": "IMG/Kilen/exterior/Kilen_Moodbild-Balkong_220629_beauty element.jpg", "Type": 0 },
+      { "Source": "IMG/Kilen/exterior/Kilen_Innergard.jpg", "Type": 0 }
+    ],
+    "Comment": "Nån lämplig kommentar..."
+  }
+}

@@ -28,6 +28,9 @@
   <ItemGroup>
     <Content Remove="Pages\360_bilder.razor" />
     <Content Remove="Pages\VR-video.razor" />
+    <Content Remove="wwwroot\data\houses\Kilen.xlsx" />
+    <Content Remove="wwwroot\data\houses\SolHav.xlsx" />
+    <Content Remove="wwwroot\data\houses\WIJK.xlsx" />
     <Content Remove="wwwroot\Goback.js" />
     <Content Remove="wwwroot\IMG\WIJK\interior\Adjust-KitchenG3KT.jpg" />
     <Content Remove="wwwroot\IMG\WIJK\interior\Dag.jpg" />
@@ -104,12 +107,13 @@
     <None Include="wwwroot\css\open-iconic\README.md" />
     <None Include="wwwroot\data\apartments.js" />
     <None Include="wwwroot\data\apartments\apt_data.js" />
+    <None Include="wwwroot\data\houses\Kilen.xlsx" />
+    <None Include="wwwroot\data\houses\SolHav.xlsx" />
+    <None Include="wwwroot\data\houses\WIJK.xlsx" />
     <None Include="wwwroot\data\pan_options.js" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\data\views\Kilen\" />
-    <Folder Include="wwwroot\IMG\Kilen\" />
     <Folder Include="wwwroot\IMG\SolHav\exterior\" />
     <Folder Include="wwwroot\IMG\SolHav\interior\" />
     <Folder Include="wwwroot\Pdf\SolHav\" />

@@ -224,20 +224,22 @@
       await JSRuntime.InvokeVoidAsync("mapster_responsive.dispose");
       await JSRuntime.InvokeVoidAsync("lgh_lista.dispose");
       await JSRuntime.InvokeVoidAsync("exterior.dispose");
+      await JSRuntime.InvokeVoidAsync("util.hideTooltip");
+      await JSRuntime.InvokeVoidAsync("util.hideColorpicker");
+      await JSRuntime.InvokeVoidAsync("interior.hideColorpicker");
+
       await JSRuntime.InvokeVoidAsync("interior.addResizeListener");
       ImagesLoaded = await JSRuntime.InvokeAsync<bool>("interior.loadImages", House.Housetype, HouseData);
-      firstRenderDone = true;
       base.StateHasChanged();
 
-      await JSRuntime.InvokeVoidAsync("util.hideColorpicker");
       await JSRuntime.InvokeVoidAsync("util.enableClickMenu");
       await JSRuntime.InvokeVoidAsync("interior.applyImages", House.Housetype);
+      await JSRuntime.InvokeVoidAsync("interior.resize");
+      await JSRuntime.InvokeVoidAsync("util.enableContentinterior");
+
+      firstRenderDone = true;
       FloorplanInited = true;
       base.StateHasChanged();
-      await JSRuntime.InvokeVoidAsync("interior.resize");
-      await JSRuntime.InvokeVoidAsync("interior.hideColorpicker");
-      await JSRuntime.InvokeVoidAsync("util.hideTooltip");
-      await JSRuntime.InvokeVoidAsync("util.enableContentinterior");
     }
   }
 

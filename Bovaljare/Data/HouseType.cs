@@ -537,13 +537,11 @@ namespace Bovaljare.Data
             { "lgh", new HouseType {
               Floorplans = new List<Floorplan> {
                 new Floorplan { Source = "IMG/Kilen/interior/Kilen_3D Floor Plan.jpg", Rooms = new List<Floorplan.Room> {
-                  //new Floorplan.Room { RoomID = 6, Left = "63.5%", Top="54%", IconClass="fas fa-street-view" },
-                  //new Floorplan.Room { RoomID = 4, Left = "56%", Top="60%", IconClass="fas fa-camera" },
-                  //new Floorplan.Room { RoomID = 2, Left = "63%", Top="30%", IconClass="fas fa-camera" },
-                  //new Floorplan.Room { RoomID = 5, Left = "74%", Top="42%", IconClass="fas fa-street-view" },
-                  //new Floorplan.Room { RoomID = 3, Left = "63%", Top="41%", IconClass="fas fa-camera" },
-                  //new Floorplan.Room { RoomID = 7, Left = "36%", Top="45%", IconClass="fas fa-camera" },
-                  //new Floorplan.Room { RoomID = 8, Left = "31%", Top="59%", IconClass="fas fa-video" },
+                  new Floorplan.Room { RoomID = 0, Left = "62%", Top="47%", IconClass="fas fa-camera" },
+                  new Floorplan.Room { RoomID = 1, Left = "42%", Top="35%", IconClass="fas fa-camera" },
+                  new Floorplan.Room { RoomID = 3, Left = "57%", Top="39%", IconClass="fas fa-street-view" },
+                  new Floorplan.Room { RoomID = 5, Left = "28%", Top="44%", IconClass="fas fa-camera" },
+                  new Floorplan.Room { RoomID = 6, Left = "50%", Top="60%", IconClass="fas fa-camera" },
                 }},
               },
               Images = new List<Image> {

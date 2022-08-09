@@ -1,12 +1,12 @@
 [
   {
     "Name": "house-main-0",
-    "ImageMapName": "image-map-0",
+    "ImageMapName": "house-map-0",
     "SourceImgName": "IMG/SolHav/exterior/solhav_PerspectiveMatch_oversikt2.jpg"
   },
   {
     "Name": "house-main-1",
-    "ImageMapName": "image-map-1",
+    "ImageMapName": "house-map-1",
     "SourceImgName": "IMG/SolHav/exterior/SolHav_Oversikt_V3_BeautyElement.jpg"
   }
 ]

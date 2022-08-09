@@ -1,27 +1,27 @@
 [
   {
     "Name": "house-main-0",
-    "ImageMapName": "image-map-0",
+    "ImageMapName": "house-map-0",
     "SourceImgName": "IMG/WIJK/exterior/OversiktStora_medium2.jpg"
   },
   {
     "Name": "house-main-1",
-    "ImageMapName": "image-map-1",
+    "ImageMapName": "house-map-1",
     "SourceImgName": "IMG/WIJK/exterior/Oversikt_V2_medium.jpg"
   },
   {
     "Name": "house-main-2",
-    "ImageMapName": "image-map-2",
+    "ImageMapName": "house-map-2",
     "SourceImgName": "IMG/WIJK/exterior/Oversikt1-5_medium.jpg"
   },
   {
     "Name": "house-main-3",
-    "ImageMapName": "image-map-3",
+    "ImageMapName": "house-map-3",
     "SourceImgName": "IMG/WIJK/exterior/Oversikt8_medium.jpg"
   },
   {
     "Name": "house-main-4",
-    "ImageMapName": "image-map-4",
+    "ImageMapName": "house-map-4",
     "SourceImgName": "IMG/WIJK/exterior/Oversikt11_medium.jpg"
   }
 ]

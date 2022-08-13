@@ -16,7 +16,7 @@
       { "Source": "IMG/Kilen/interior/Kilen_Vardagsrum-1.jpg", "Type": 0 },
       { "Source": "IMG/Kilen/interior/220802_Kilen-Kitchen.png", "Type": 0 },
       { "Source": "IMG/Kilen/interior/220803_Kilen_Allrum.jpg", "Type": 0 },
-      { "Source": "IMG/Kilen/interior/220803_Kilen_Panorama.jpg", "Type": 3, "Link": "https://roundme.com/tour/884668/view/2774353", "RoomName": "allrum" },
+      { "Source": "IMG/Kilen/interior/220803_Kilen_Panorama.jpg", "Type": 3, "Link": "https://roundme.com/embed/884668/2774353", "RoomName": "allrum" },
       { "Source": "IMG/Kilen/interior/220802_Kitchen_2.jpg", "Type": 0 },
       { "Source": "IMG/Kilen/interior/Kilen_Sovrum.jpg", "Type": 0 },
       { "Source": "IMG/Kilen/interior/Kilen_WC.png", "Type": 0 },
